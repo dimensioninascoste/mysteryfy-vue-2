@@ -13,6 +13,9 @@
       </ion-header>
 
       <ExploreContainer name="Tab 3 page" />
+      <div>
+        <h1 v-t="'profileTitle'"></h1>
+      </div>
     </ion-content>
   </ion-page>
 </template>
