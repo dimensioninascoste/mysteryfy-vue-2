@@ -30,17 +30,27 @@ import '@ionic/vue/css/display.css';
 import './theme/variables.css';
 import { createI18n } from 'vue-i18n';
 import { globalizationList } from '@/lang/globalizationData';
+import { Device, DevicePlugin } from '@capacitor/device';
 
-const i18n = createI18n({
-  locale: 'en', // set locale
-  fallbackLocale: 'en', // set fallback locale
-  messages: globalizationList, // set locale messages
-  preserveDirectiveContent: true
-});
+await Device.getLanguageCode().then((res) => {
+  if (res.value.includes('-')) {
+    var deviceLang;
+    const language = res.value.split('-')[0];
+    deviceLang = language;
+  } else {
+    deviceLang = res.value;
+  }
 
-console.log(i18n)
+  const i18n = createI18n({
+    locale: deviceLang, // set locale
+    fallbackLocale: 'en', // set fallback locale
+    messages: globalizationList, // set locale messages
+    preserveDirectiveContent: true
+  });
 
-const app = createApp(App)
+  console.log(i18n)
+
+  const app = createApp(App)
   .use(IonicVue)
   .use(router)
   .use(i18n);
@@ -48,3 +58,9 @@ const app = createApp(App)
 router.isReady().then(() => {
   app.mount('#app');
 });
+
+
+})
+
+
+
