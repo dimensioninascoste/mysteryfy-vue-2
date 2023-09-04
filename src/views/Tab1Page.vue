@@ -29,10 +29,8 @@ import {
     IonToolbar,
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
-//import { Device } from '@capacitor/device';
 
 export default defineComponent({
-
     name: 'Home',
         components: {
             IonContent,
@@ -41,11 +39,9 @@ export default defineComponent({
             IonTitle,
             IonToolbar,
         },
-
     methods: {
       changeLanguage($event: any) {
             this.$i18n.locale = $event.detail.value;
-
             console.log("valore di changeLanguage:", this.$i18n);
           } 
     }
