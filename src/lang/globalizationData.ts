@@ -1,5 +1,8 @@
 export const globalizationList = {
     en: {
+        homeHome: 'Home',
+        catalogHome: 'Cases',
+        profileHome: 'Detective',
         title: 'Welcome',
         TITLE_2: 'Hello {value}',
         description: 'Ooohh .... did you just translate this text ?',
@@ -9,6 +12,9 @@ export const globalizationList = {
         }
     },
     it: {
+        homeHome: 'Home',
+        catalogHome: 'Casi',
+        profileHome: 'Detective',
         title: 'Benvenuti',
         TITLE_2: 'Salve {value}',
         description: 'Ooohh .... hai tradotto questo testo?',
@@ -18,6 +24,9 @@ export const globalizationList = {
         }
     },
     de: {
+        homeHome: 'Home',
+        catalogHome: 'Cases',
+        profileHome: 'Detective',
         title: 'Wilkommen!',
         TITLE_2: 'Hallo {value}',
         profileTitle: 'Profil pagen',
