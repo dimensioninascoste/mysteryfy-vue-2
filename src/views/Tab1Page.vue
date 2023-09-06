@@ -12,8 +12,6 @@
                 </ion-toolbar>
             </ion-header>
             <div id="container" class="ion-padding">
-                <ion-button expand="block" @click="openModal">Open Modal</ion-button>
-                <p>{{ message }}</p>
                 <!-- <strong>{{ languageCode }}</strong> -->
                 <h1 v-t="'title'"></h1>
                 <p v-t="'description'"></p>
@@ -22,7 +20,7 @@
     </ion-page>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts">
 import {
     IonContent,
     IonHeader,
@@ -32,39 +30,21 @@ import {
     modalController
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
-import Modal from '@/components/Modal.vue';
-import { ref } from 'vue';
 
-const message = ref('This modal example uses the modalController to present and dismiss modals.');
-
-  const openModal = async () => {
-    const modal = await modalController.create({
-      component: Modal,
-    });
-
-    modal.present();
-
-    const { data, role } = await modal.onWillDismiss();
-
-    if (role === 'confirm') {
-      message.value = `Hello, ${data}!`;
+export default defineComponent({
+    name: 'Home',
+        components: {
+            IonContent,
+            IonHeader,
+            IonPage,
+            IonTitle,
+            IonToolbar,
+        },
+    methods: {
+      changeLanguage($event: any) {
+            this.$i18n.locale = $event.detail.value;
+            console.log("valore di changeLanguage:", this.$i18n);
+          } 
     }
-  };
-
-// export default defineComponent({
-//     name: 'Home',
-//         components: {
-//             IonContent,
-//             IonHeader,
-//             IonPage,
-//             IonTitle,
-//             IonToolbar,
-//         },
-//     methods: {
-//       changeLanguage($event: any) {
-//             this.$i18n.locale = $event.detail.value;
-//             console.log("valore di changeLanguage:", this.$i18n);
-//           } 
-//     }
-// });
+});
 </script>
