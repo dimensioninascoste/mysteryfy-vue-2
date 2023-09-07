@@ -45,30 +45,30 @@ blush -->
 
 <template>
     <ion-page>
-    <ion-header>
-    <ion-toolbar>
-    <ion-title>Verifica Email</ion-title>
-    </ion-toolbar>
-    </ion-header>
-    <ion-content :fullscreen="true">
-    <ion-header collapse="condense">
-    <ion-toolbar>
-    <ion-title size="large">Verifica Email</ion-title>
-    </ion-toolbar>
-    </ion-header>
-    <!-- Mostra il form solo se la variabile email è vuota -->
-    <div v-if="email === ''">
-    <ion-item>
+        <ion-header>
+            <ion-toolbar>
+                <ion-title>Verifica Email</ion-title>
+            </ion-toolbar>
+        </ion-header>
+        <ion-content :fullscreen="true">
+            <ion-header collapse="condense">
+                <ion-toolbar>
+                    <ion-title size="large">Verifica Email</ion-title>
+                </ion-toolbar>
+            </ion-header>
+        <!-- Mostra il form solo se la variabile email è vuota -->
+        <div v-if="email === ''">
+        <ion-item>
         <ion-label position="floating">Inserisci la tua email</ion-label>
         <ion-input v-model="email" type="email"></ion-input>
-    </ion-item>
-    <ion-button expand="block" @click="sendEmail">Invia</ion-button>
-    </div>
-    <!-- Mostra un messaggio se la variabile email non è vuota -->
-    <div v-if="email">
+        </ion-item>
+        <ion-button expand="block" @click="sendEmail">Invia</ion-button>
+        </div>
+        <!-- Mostra un messaggio se la variabile email non è vuota -->
+        <div v-else>
         <p>La tua email è già stata inviata al client: {{ email }}</p>
-    </div>
-    </ion-content>
+        </div>
+        </ion-content>
     </ion-page>
 </template>
 
