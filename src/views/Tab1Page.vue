@@ -45,30 +45,30 @@ blush -->
 
 <template>
     <ion-page>
-    <ion-header>
-    <ion-toolbar>
-    <ion-title>Verifica Email</ion-title>
-    </ion-toolbar>
-    </ion-header>
-    <ion-content :fullscreen="true">
-    <ion-header collapse="condense">
-    <ion-toolbar>
-    <ion-title size="large">Verifica Email</ion-title>
-    </ion-toolbar>
-    </ion-header>
-    <!-- Mostra il form solo se la variabile email è vuota -->
-    <div v-if="email === ''">
-    <ion-item>
-        <ion-label position="floating">Inserisci la tua email</ion-label>
-        <ion-input v-model="email" type="email"></ion-input>
-    </ion-item>
-    <ion-button expand="block" @click="sendEmail">Invia</ion-button>
-    </div>
-    <!-- Mostra un messaggio se la variabile email non è vuota -->
-    <div v-if="email">
-        <p>La tua email è già stata inviata al client: {{ email }}</p>
-    </div>
-    </ion-content>
+        <ion-header>
+            <ion-toolbar>
+                <ion-title>Verifica Email</ion-title>
+            </ion-toolbar>
+        </ion-header>
+        <ion-content :fullscreen="true">
+        <ion-header collapse="condense">
+        <ion-toolbar>
+        <ion-title size="large">Verifica Email</ion-title>
+        </ion-toolbar>
+        </ion-header>
+        <!-- Mostra il form solo se la variabile email è vuota -->
+        <div v-if="pisello === ''">
+            <ion-item>
+                <ion-label position="floating">Inserisci la tua email</ion-label>
+                <ion-input v-model="email" type="email" for="email" required></ion-input>
+            </ion-item>
+            <ion-button expand="block" @click="sendEmail">Invia</ion-button>
+        </div>
+        <!-- Mostra un messaggio se la variabile email non è vuota -->
+        <div v-else>
+            <p>La tua email è già stata inviata al client: {{ email }}</p>
+        </div>
+        </ion-content>
     </ion-page>
 </template>
 
@@ -86,9 +86,13 @@ import {
     IonInput,
     IonButton,
 } from '@ionic/vue';
-import { defineComponent, ref, onMounted } from 'vue';
-import { Storage } from '@capacitor/storage';
-//import axios from 'axios';
+import { defineComponent, ref, onMounted, watchEffect } from 'vue';
+import { Preferences } from '@capacitor/preferences';
+import axios from 'axios';
+
+//const API_URL = `https://www.mysteryfy.com/wp-json/newsletter/v2/subscribers?client_key=42aa7ec963b0fbbcbfa10e49a992ddccd3c0bdb5&client_secret=c080d95d498b04dd0763c739632561acc2938b4e`;
+
+export var fetchDateUrl = (date: string) => `https://www.mysteryfy.com/wp-json/newsletter/v2/subscribers/${date}?client_key=42aa7ec963b0fbbcbfa10e49a992ddccd3c0bdb5&client_secret=c080d95d498b04dd0763c739632561acc2938b4e`;
 
 export default defineComponent({
     name: 'Home',
@@ -103,30 +107,57 @@ export default defineComponent({
     IonInput,
     IonButton,
     },
+    data(){
+        return {
+            pisello: false
+        }
+    },
     setup() {
     // Crea una variabile reattiva per memorizzare lo stato della email dell'utente
+        //var statusUserEmail = false;
         const email = ref('');
 
         // Crea una funzione asincrona per verificare se la email dell'utente esiste già nel localstorage
         async function checkEmail() {
-        // Ottieni il valore della chiave 'userEmail' nel localstorage
-            const { value } = await Storage.get({ key: 'userEmail' });
-        // Se il valore esiste, assegnalo alla variabile email
-        if (value) {
-            email.value = value;
-        }
-        // Se il valore non esiste, lascia la variabile email vuota
-            else { 
-            email.value = '';
+            // Ottieni il valore della chiave 'userEmail' nel localstorage
+                const { value } = await Preferences.get({ key: 'userEmail' });
+
+                // Se il valore esiste, interrogo il database per verificare se "status": "confirmed"
+                if (value) {
+                    await axios.get(fetchDateUrl(value))
+
+
+                    // await axios.get()
+                    // .then((response) => {
+                    //     console.log(response)
+                    // })
+                //email.value = value;
             }
-        }
+
+
+
+            // se lo status è confermato assegno i valore della chiave 'userEmail' alla variabile email
+            //se lo status non è cofermato, restituisco un messaggio
+            //se lo status è confermato, carico la dashboard dell'utente
+
+
+            // Se il valore non esiste, lascia la variabile email vuota
+                else { 
+                email.value = '';
+                }
+            }
 
         // Crea una funzione asincrona per inviare la email dell'utente al client e salvarla nel localstorage
         async function sendEmail() {
             // Salva la email dell'utente nel localstorage con la chiave 'userEmail'
-            await Storage.set({ key: 'userEmail', value: email.value });
+            await Preferences.set({ key: 'userEmail', value: email.value });
             // Invia la email dell'utente al client con una richiesta HTTP
-            //await axios.post('https://example.com/api/email', { email: email.value });
+            await axios
+                .post('https://www.mysteryfy.com/wp-json/newsletter/v2/subscriptions', { email: email.value })
+                .catch((error) => {error.response.data.code === 'exists'?pisello = true:console.log("Altro errore")});
+            
+            // Richiamo la funzione di controllo della localStorage e dello status di conferma dell'email
+            //checkEmail();
         }
 
         // Chiama la funzione checkEmail quando il componente viene montato
@@ -139,6 +170,15 @@ export default defineComponent({
             sendEmail,
         };
     },
+    // methods: {
+    //     validateEmail() {
+    //         if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email)) {
+    //             console.log('Please enter a valid email address');
+    //         } else {
+    //             console.log("email ok");
+    //         }
+    //     }
+    // }
 });
 </script>
 
