@@ -14,7 +14,7 @@
         <!-- Mostra il form solo se la variabile email è vuota -->
         <div v-if="!emailLocalStorage">
             <ion-item>
-                <ion-label position="floating">Inserisci la tua email</ion-label>
+                <ion-label position="floating" v-t="'insert_email'"></ion-label>
                 <ion-input v-model="email" type="email" for="email" required></ion-input>
             </ion-item>
             <div v-if="validateEmail(email)">
@@ -30,7 +30,7 @@
         </div>
         <!-- Mostra un messaggio se la variabile email non è vuota -->
         <div v-else-if="emailLocalStorage = 'dashboard'">
-            <p>La tua email è già stata inviata al client: {{ email }}</p>
+            <p v-t="'dashboard_message'"></p><p>{{ email }}</p>
             <p>{{ emailLocalStorage }}</p>
         </div>
         </ion-content>
