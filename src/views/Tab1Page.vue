@@ -1,48 +1,3 @@
-<!-- Ciao, questo è Bing. Sono contento di aiutarti a scrivere un codice per Ionic e Vue.js per controllare se un utente ha già inviato la sua email al client usando localstorage. 
-
-Localstorage è un'API web che consente di memorizzare e recuperare dati in modo persistente nel browser dell'utente. Puoi usare localstorage per salvare la email dell'utente quando viene inviata al client, e poi verificare se esiste già nel localstorage prima di mostrare il form di inserimento. https://ionicframework.com/docs/vue/overview
-
-Per usare localstorage con Ionic e Vue.js, puoi seguire questi passaggi:
-
-•  Importa il plugin Capacitor Storage API https://ionicframework.com/docs/vue/quickstart, che ti permette di accedere al localstorage in modo semplice e cross-platform. Per installare il plugin, esegui il seguente comando nel terminale:
-
-npm install @capacitor/storage
-
-Poi, importa il plugin nel file dove vuoi usare la funzione di verifica della email:
-
-import { Storage } from '@capacitor/storage';
-
-•  Crea una variabile reattiva per memorizzare lo stato della email dell'utente. Puoi usare la funzione ref di Vue https://qastack.it/programming/37873608/how-do-i-detect-if-a-user-is-already-logged-in-firebase per creare una variabile che si aggiorna automaticamente quando cambia il suo valore. Per esempio, puoi scrivere:
-
-const email = ref('');
-
-•  Crea una funzione asincrona per verificare se la email dell'utente esiste già nel localstorage. Puoi usare il metodo get del plugin Storage per ottenere il valore associato a una chiave nel localstorage. Se il valore esiste, significa che l'utente ha già inviato la sua email al client, e puoi assegnarlo alla variabile email. Se il valore non esiste, significa che l'utente deve ancora inserire la sua email, e puoi lasciare la variabile email vuota. Per esempio, puoi scrivere:
-
-async function checkEmail() {
-// Ottieni il valore della chiave 'userEmail' nel localstorage
-const { value } = await Storage.get({ key: 'userEmail' });
-// Se il valore esiste, assegnalo alla variabile email
-if (value) {
-email.value = value;
-}
-// Se il valore non esiste, lascia la variabile email vuota
-else {
-email.value = '';
-}
-}
-
-•  Crea una funzione asincrona per inviare la email dell'utente al client e salvarla nel localstorage. Puoi usare il metodo set del plugin Storage per memorizzare un valore associato a una chiave nel localstorage. Puoi anche usare una libreria come Axios per effettuare una richiesta HTTP al client e inviare la email dell'utente. Per esempio, puoi scrivere:
-
-async function sendEmail() {
-// Salva la email dell'utente nel localstorage con la chiave 'userEmail'
-await Storage.set({ key: 'userEmail', value: email.value });
-// Invia la email dell'utente al client con una richiesta HTTP
-await axios.post('https://example.com/api/email', { email: email.value });
-}
-
-•  Crea un template HTML per mostrare il form di inserimento della email solo se la variabile email è vuota. Puoi usare la direttiva v-if di Vue per condizionare la visualizzazione di un elemento in base al valore di una espressione. Puoi anche usare i componenti Ionic per creare un'interfaccia utente nativa e reattiva. Per esempio, puoi scrivere:
-blush -->
-
 <template>
     <ion-page>
         <ion-header>
@@ -57,22 +12,30 @@ blush -->
         </ion-toolbar>
         </ion-header>
         <!-- Mostra il form solo se la variabile email è vuota -->
-        <div v-if="pisello === ''">
+        <div v-if="!emailLocalStorage">
             <ion-item>
                 <ion-label position="floating">Inserisci la tua email</ion-label>
                 <ion-input v-model="email" type="email" for="email" required></ion-input>
             </ion-item>
-            <ion-button expand="block" @click="sendEmail">Invia</ion-button>
+            <div v-if="validateEmail(email)">
+                <ion-button expand="block" @click="sendEmail">Invia</ion-button>
+<!--                 <div>
+                    <ion-spinner v-if="loading" name="bubbles"></ion-spinner>
+                </div> -->
+            </div>
+            <div v-else>
+                <ion-button expand="block" :disabled="true">Invia</ion-button>
+            </div>
+            
         </div>
         <!-- Mostra un messaggio se la variabile email non è vuota -->
-        <div v-else>
+        <div v-else-if="emailLocalStorage = 'dashboard'">
             <p>La tua email è già stata inviata al client: {{ email }}</p>
+            <p>{{ emailLocalStorage }}</p>
         </div>
         </ion-content>
     </ion-page>
 </template>
-
-<!-- •  Chiama la funzione checkEmail quando il componente viene montato, per verificare se la email dell'utente esiste già nel localstorage. Puoi usare l'hook onMounted di Vue per eseguire una funzione quando il componente viene inserito nel DOM. Per esempio, puoi scrivere: -->
 
 <script lang="ts">
 import {
@@ -85,12 +48,13 @@ import {
     IonLabel,
     IonInput,
     IonButton,
+    IonSpinner,
+    IonLoading,
+    loadingController
 } from '@ionic/vue';
 import { defineComponent, ref, onMounted, watchEffect } from 'vue';
 import { Preferences } from '@capacitor/preferences';
 import axios from 'axios';
-
-//const API_URL = `https://www.mysteryfy.com/wp-json/newsletter/v2/subscribers?client_key=42aa7ec963b0fbbcbfa10e49a992ddccd3c0bdb5&client_secret=c080d95d498b04dd0763c739632561acc2938b4e`;
 
 export var fetchDateUrl = (date: string) => `https://www.mysteryfy.com/wp-json/newsletter/v2/subscribers/${date}?client_key=42aa7ec963b0fbbcbfa10e49a992ddccd3c0bdb5&client_secret=c080d95d498b04dd0763c739632561acc2938b4e`;
 
@@ -106,16 +70,27 @@ export default defineComponent({
     IonLabel,
     IonInput,
     IonButton,
+    IonSpinner,
+    IonLoading
     },
-    data(){
-        return {
-            pisello: false
-        }
-    },
+
     setup() {
     // Crea una variabile reattiva per memorizzare lo stato della email dell'utente
         //var statusUserEmail = false;
         const email = ref('');
+        const emailLocalStorage = ref(''); 
+        const loading = ref()
+
+        // Crea una funzione per mostrare lo spinner a piena pagina
+        async function showSpinner() {
+            loading.value = await loadingController.create({
+                spinner: 'lines',
+                message: 'Waiting please...',
+                duration: 0,
+                translucent: true,
+            });
+            await loading.value.present();
+        }
 
         // Crea una funzione asincrona per verificare se la email dell'utente esiste già nel localstorage
         async function checkEmail() {
@@ -125,69 +100,74 @@ export default defineComponent({
                 // Se il valore esiste, interrogo il database per verificare se "status": "confirmed"
                 if (value) {
                     await axios.get(fetchDateUrl(value))
-
-
-                    // await axios.get()
-                    // .then((response) => {
-                    //     console.log(response)
-                    // })
-                //email.value = value;
+                    .then((response) => {
+                         console.log(response)
+                    })
+                email.value = value;
+                emailLocalStorage.value = "dashboard";
+                console.log("LocalStorage presente: ", value)
             }
 
-
-
-            // se lo status è confermato assegno i valore della chiave 'userEmail' alla variabile email
+            //se lo status è confermato assegno i valore della chiave 'userEmail' alla variabile email
             //se lo status non è cofermato, restituisco un messaggio
             //se lo status è confermato, carico la dashboard dell'utente
 
-
             // Se il valore non esiste, lascia la variabile email vuota
                 else { 
-                email.value = '';
+                    //email.value = '';
+                    console.log("non c'è localStorage")
                 }
+                loading.value.dismiss();
             }
 
         // Crea una funzione asincrona per inviare la email dell'utente al client e salvarla nel localstorage
         async function sendEmail() {
+            // avvia lo spinner
+            showSpinner();
+            //loading.value = true;
             // Salva la email dell'utente nel localstorage con la chiave 'userEmail'
             await Preferences.set({ key: 'userEmail', value: email.value });
             // Invia la email dell'utente al client con una richiesta HTTP
             await axios
                 .post('https://www.mysteryfy.com/wp-json/newsletter/v2/subscriptions', { email: email.value })
-                .catch((error) => {error.response.data.code === 'exists'?pisello = true:console.log("Altro errore")});
+                .catch((error) => {error.response.data.code === 'exists'?console.log("Email già presente"):console.log("Altro errore")});
             
             // Richiamo la funzione di controllo della localStorage e dello status di conferma dell'email
-            //checkEmail();
+            checkEmail();
+            emailLocalStorage.value = "dashboard";
+            //loading.value = false;
+            loading.value.dismiss();
         }
 
         // Chiama la funzione checkEmail quando il componente viene montato
+        onMounted(showSpinner)
         onMounted(checkEmail);
 
         // Restituisci le variabili e le funzioni che vuoi usare nel template
         return {
             email,
+            emailLocalStorage,
+            loading,
+            showSpinner,
             checkEmail,
             sendEmail,
         };
     },
-    // methods: {
-    //     validateEmail() {
-    //         if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email)) {
-    //             console.log('Please enter a valid email address');
-    //         } else {
-    //             console.log("email ok");
-    //         }
-    //     }
-    // }
+    methods: {
+        validateEmail(value: any) {
+            if (this.email) {    
+                var reg = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/ ;
+                
+                if (reg.test(value)) {
+                    this.checkEmail()
+                    return true;
+                    console.log('valid email address');
+                } else {
+                    return false;
+                    console.log("email ok");
+                }
+            }
+        },
+    }
 });
 </script>
-
-<!-- Questo è un esempio di codice che puoi usare per controllare se un utente ha già inviato la sua email al client usando localstorage con Ionic e Vue.js. Spero che ti sia utile. Se hai altre domande, sono qui per te. blush
-
-^1^]: [Local Storage - Web APIs | MDN https://ionicframework.com/docs/vue/overview
-^2^]: [Storage - Capacitor https://ionicframework.com/docs/vue/quickstart
-^3^]: [ref | Vue.js https://qastack.it/programming/37873608/how-do-i-detect-if-a-user-is-already-logged-in-firebase
-: [Axios - npm]
-: [v-if | Vue.js]
-: [Components - Ionic Documentation]
-: [onMounted | Vue.js] -->
