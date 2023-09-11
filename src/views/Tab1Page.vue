@@ -2,37 +2,43 @@
     <ion-page>
         <ion-header>
             <ion-toolbar>
-                <ion-title>Verifica Email</ion-title>
+                <ion-title>Mysteryfy Home Page</ion-title>
             </ion-toolbar>
         </ion-header>
         <ion-content :fullscreen="true">
         <ion-header collapse="condense">
         <ion-toolbar>
-        <ion-title size="large">Verifica Email</ion-title>
+        <ion-title size="large" v-t="'welcome'"></ion-title>
         </ion-toolbar>
         </ion-header>
         <!-- Mostra il form solo se la variabile email è vuota -->
         <div v-if="!emailLocalStorage">
             <ion-item>
-                <ion-label position="floating">Inserisci la tua email</ion-label>
+                <ion-label position="floating" v-t="'insert_email'"></ion-label>
                 <ion-input v-model="email" type="email" for="email" required></ion-input>
             </ion-item>
             <div v-if="validateEmail(email)">
-                <ion-button expand="block" @click="sendEmail">Invia</ion-button>
+                <ion-button expand="block" @click="sendEmail" v-t="'send'"></ion-button>
 <!--                 <div>
                     <ion-spinner v-if="loading" name="bubbles"></ion-spinner>
                 </div> -->
             </div>
             <div v-else>
-                <ion-button expand="block" :disabled="true">Invia</ion-button>
+                <ion-button expand="block" :disabled="true"  v-t="'send'"></ion-button>
             </div>
             
         </div>
         <!-- Mostra un messaggio se la variabile email non è vuota -->
-        <div v-else-if="emailLocalStorage = 'dashboard'">
-            <p>La tua email è già stata inviata al client: {{ email }}</p>
-            <p>{{ emailLocalStorage }}</p>
+        <div v-else-if="emailLocalStorage = 'checkemail'">
+            <ion-card>
+                <ion-card-content>
+                    <p>Mysteryfy ti ha appena inviato un messaggio all'indirizzo che ci hai dato</p>
+                    <p>{{ email }}</p>
+                    <p>Per favore, controlla il messaggio e clicca per confermare il tuo indirizzo.</p>
+                </ion-card-content>
+            </ion-card>
         </div>
+
         </ion-content>
     </ion-page>
 </template>
@@ -50,11 +56,14 @@ import {
     IonButton,
     IonSpinner,
     IonLoading,
-    loadingController
+    loadingController,
+    IonCard,
+    IonCardContent
 } from '@ionic/vue';
 import { defineComponent, ref, onMounted, watchEffect } from 'vue';
 import { Preferences } from '@capacitor/preferences';
 import axios from 'axios';
+import { loginLocalStorage } from '@/components/globals.vue';
 
 export var fetchDateUrl = (date: string) => `https://www.mysteryfy.com/wp-json/newsletter/v2/subscribers/${date}?client_key=42aa7ec963b0fbbcbfa10e49a992ddccd3c0bdb5&client_secret=c080d95d498b04dd0763c739632561acc2938b4e`;
 
@@ -71,14 +80,16 @@ export default defineComponent({
     IonInput,
     IonButton,
     IonSpinner,
-    IonLoading
+    IonLoading,
+    IonCard,
+    IonCardContent
     },
 
     setup() {
     // Crea una variabile reattiva per memorizzare lo stato della email dell'utente
         //var statusUserEmail = false;
         const email = ref('');
-        const emailLocalStorage = ref(''); 
+        const emailLocalStorage = loginLocalStorage;
         const loading = ref()
 
         // Crea una funzione per mostrare lo spinner a piena pagina
@@ -101,16 +112,21 @@ export default defineComponent({
                 if (value) {
                     await axios.get(fetchDateUrl(value))
                     .then((response) => {
-                         console.log(response)
+                         console.log(response.status)
                     })
+                //se lo status è confermato assegno i valore della chiave 'userEmail' alla variabile email e visualizzo la dashbard
                 email.value = value;
-                emailLocalStorage.value = "dashboard";
+                emailLocalStorage.value = "checkemail";
                 console.log("LocalStorage presente: ", value)
-            }
 
-            //se lo status è confermato assegno i valore della chiave 'userEmail' alla variabile email
-            //se lo status non è cofermato, restituisco un messaggio
-            //se lo status è confermato, carico la dashboard dell'utente
+            } 
+            //se lo status non è confermato, restituisco un messaggio di controllare la propria mailbox
+            /*else if {
+
+            }*/
+
+            
+            
 
             // Se il valore non esiste, lascia la variabile email vuota
                 else { 

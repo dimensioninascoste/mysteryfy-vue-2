@@ -55,12 +55,7 @@ await Device.getLanguageCode().then((res) => {
   .use(router)
   .use(i18n);
   
-router.isReady().then(() => {
-  app.mount('#app');
-});
-
-
+  router.isReady().then(() => {
+    app.mount('#app');
+    });
 })
-
-
-

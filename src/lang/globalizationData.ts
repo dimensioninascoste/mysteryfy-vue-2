@@ -1,5 +1,8 @@
 export const globalizationList = {
     en: {
+        welcome: 'Welcome in Mysteryfy!',
+        insert_email: 'Please, write your email',
+        send: 'Send',
         homeHome: 'Home',
         catalogHome: 'Cases',
         profileHome: 'Detective',
@@ -12,6 +15,9 @@ export const globalizationList = {
         }
     },
     it: {
+        welcome: 'Benvenuti in Mysteryfy!',
+        insert_email: 'Inserisci la tua email',
+        send: 'Invia',
         homeHome: 'Home',
         catalogHome: 'Casi',
         profileHome: 'Detective',
@@ -24,6 +30,9 @@ export const globalizationList = {
         }
     },
     de: {
+        welcome: 'Wilkommen in Mysteryfy!',
+        insert_email: 'Bitte schreiben Sie Ihre E-Mail',
+        send: 'Schicken',
         homeHome: 'Home',
         catalogHome: 'Cases',
         profileHome: 'Detective',
