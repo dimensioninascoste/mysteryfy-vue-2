@@ -12,29 +12,40 @@
         </ion-toolbar>
         </ion-header>
         <!-- Mostra il form solo se la variabile email è vuota -->
-        <div v-if="!emailLocalStorage">
+        <div v-if="!loginLocalStorage">
             <ion-item>
-                <ion-label position="floating" v-t="'insert_email'"></ion-label>
-                <ion-input v-model="email" type="email" for="email" required></ion-input>
+                <!-- <ion-label position="floating" aria-label="Email" v-t="'insert_email'"></ion-label> -->
+                <ion-input v-model="email" type="email" labelPlacement="floating" aria-label="Email" label="Insert email" for="email" required></ion-input>
             </ion-item>
             <div v-if="validateEmail(email)">
                 <ion-button expand="block" @click="sendEmail" v-t="'send'"></ion-button>
-<!--                 <div>
+<!--            <div>
                     <ion-spinner v-if="loading" name="bubbles"></ion-spinner>
                 </div> -->
             </div>
             <div v-else>
                 <ion-button expand="block" :disabled="true"  v-t="'send'"></ion-button>
             </div>
-            
         </div>
+
         <!-- Mostra un messaggio se la variabile email non è vuota -->
-        <div v-else-if="emailLocalStorage = 'checkemail'">
+        <div v-else-if="loginLocalStorage === 'checkemail'">
             <ion-card>
                 <ion-card-content>
                     <p>Mysteryfy ti ha appena inviato un messaggio all'indirizzo che ci hai dato</p>
                     <p>{{ email }}</p>
                     <p>Per favore, controlla il messaggio e clicca per confermare il tuo indirizzo.</p>
+                </ion-card-content>
+            </ion-card>
+        </div>
+
+        <div v-else>
+            <ion-card>
+                <ion-card-title>
+                    Dashboard
+                </ion-card-title>
+                <ion-card-content>
+                    <p>Benvenuto, questo è il tuo dossier di investigatore.</p>
                 </ion-card-content>
             </ion-card>
         </div>
@@ -58,6 +69,7 @@ import {
     IonLoading,
     loadingController,
     IonCard,
+    IonCardTitle,
     IonCardContent
 } from '@ionic/vue';
 import { defineComponent, ref, onMounted, watchEffect } from 'vue';
@@ -82,15 +94,17 @@ export default defineComponent({
     IonSpinner,
     IonLoading,
     IonCard,
+    IonCardTitle,
     IonCardContent
     },
 
     setup() {
-    // Crea una variabile reattiva per memorizzare lo stato della email dell'utente
+        // Crea una variabile reattiva per memorizzare lo stato della email dell'utente
         //var statusUserEmail = false;
         const email = ref('');
-        const emailLocalStorage = loginLocalStorage;
+        // const emailLocalStorage = loginLocalStorage;
         const loading = ref()
+        console.log("Valore di emailLocalStorage: ", loginLocalStorage)
 
         // Crea una funzione per mostrare lo spinner a piena pagina
         async function showSpinner() {
@@ -110,28 +124,30 @@ export default defineComponent({
 
                 // Se il valore esiste, interrogo il database per verificare se "status": "confirmed"
                 if (value) {
+                    //se l'email è stata inserita assegno il valore della chiave 'userEmail'
+                    email.value = value;
+                    
+                    //quindi chiamo la funzione per verificare lo status dell'email
                     await axios.get(fetchDateUrl(value))
                     .then((response) => {
-                         console.log(response.status)
+                         console.log("Risposta del server: ", response.data.status)
+                         //se lo status è confermato valorizzo la variabile per visualizzare la dashboard
+                         if(response.data.status === "confirmed") {
+                            loginLocalStorage.value = "dashboard";
+                         } else {
+                            //se lo status non è confermato, restituisco un messaggio di controllare la propria mailbox
+                            loginLocalStorage.value = "checkemail";
+                         }
                     })
-                //se lo status è confermato assegno i valore della chiave 'userEmail' alla variabile email e visualizzo la dashbard
-                email.value = value;
-                emailLocalStorage.value = "checkemail";
-                console.log("LocalStorage presente: ", value)
-
-            } 
-            //se lo status non è confermato, restituisco un messaggio di controllare la propria mailbox
-            /*else if {
-
-            }*/
-
-            
-            
+                    //loginLocalStorage.value = "checkemail";
+                    console.log("LocalStorage presente: ", value, "Valore di loginLocalStorage: ", loginLocalStorage)
+                }
 
             // Se il valore non esiste, lascia la variabile email vuota
                 else { 
                     //email.value = '';
-                    console.log("non c'è localStorage")
+                    loginLocalStorage.value = "";
+                    console.log("non c'è localStorage. Valore loginLocalStorage: ", loginLocalStorage)
                 }
                 loading.value.dismiss();
             }
@@ -150,23 +166,36 @@ export default defineComponent({
             
             // Richiamo la funzione di controllo della localStorage e dello status di conferma dell'email
             checkEmail();
-            emailLocalStorage.value = "dashboard";
+            loginLocalStorage.value = "dashboard";
             //loading.value = false;
             loading.value.dismiss();
         }
 
+/*         function checkUpdate(this: any) {
+            this.checkEmail();
+        
+            setInterval( () => {
+                this.checkEmail();
+                console.log("Interrogo il server: che dice?")
+            }, 30000); 
+        } */
+
+        //controllo periodicamente il serer per verificare se i dati dell'utente sono stati aggiornati
+
         // Chiama la funzione checkEmail quando il componente viene montato
         onMounted(showSpinner)
         onMounted(checkEmail);
+        //onMounted(checkUpdate)
 
         // Restituisci le variabili e le funzioni che vuoi usare nel template
         return {
             email,
-            emailLocalStorage,
+            //emailLocalStorage,
             loading,
             showSpinner,
             checkEmail,
             sendEmail,
+            loginLocalStorage
         };
     },
     methods: {
