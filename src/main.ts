@@ -28,6 +28,7 @@ import '@ionic/vue/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import './theme/typography.css';
 import { createI18n } from 'vue-i18n';
 import { globalizationList } from '@/lang/globalizationData';
 import { Device, DevicePlugin } from '@capacitor/device';

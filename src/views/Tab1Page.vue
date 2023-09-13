@@ -1,54 +1,67 @@
 <template>
-    <ion-page>
+    <ion-page ref="setbackground">
         <ion-header>
             <ion-toolbar>
                 <ion-title>Mysteryfy Home Page</ion-title>
             </ion-toolbar>
         </ion-header>
-        <ion-content :fullscreen="true">
-        <ion-header collapse="condense">
-        <ion-toolbar>
-        <ion-title size="large" v-t="'welcome'"></ion-title>
-        </ion-toolbar>
-        </ion-header>
-        <!-- Mostra il form solo se la variabile email è vuota -->
-        <div v-if="!loginLocalStorage">
-            <ion-item>
-                <!-- <ion-label position="floating" aria-label="Email" v-t="'insert_email'"></ion-label> -->
-                <ion-input v-model="email" type="email" labelPlacement="floating" aria-label="Email" label="Insert email" for="email" required></ion-input>
-            </ion-item>
-            <div v-if="validateEmail(email)">
-                <ion-button expand="block" @click="sendEmail" v-t="'send'"></ion-button>
-<!--            <div>
-                    <ion-spinner v-if="loading" name="bubbles"></ion-spinner>
-                </div> -->
-            </div>
-            <div v-else>
-                <ion-button expand="block" :disabled="true"  v-t="'send'"></ion-button>
-            </div>
-        </div>
+        <ion-content style="background-color: aqua;">
 
-        <!-- Mostra un messaggio se la variabile email non è vuota -->
-        <div v-else-if="loginLocalStorage === 'checkemail'">
-            <ion-card>
-                <ion-card-content>
-                    <p>Mysteryfy ti ha appena inviato un messaggio all'indirizzo che ci hai dato</p>
-                    <p>{{ email }}</p>
-                    <p>Per favore, controlla il messaggio e clicca per confermare il tuo indirizzo.</p>
-                </ion-card-content>
-            </ion-card>
-        </div>
+            <!-- <ion-header collapse="condense">
+            <ion-toolbar>
+                <ion-title size="large" v-t="'welcome'"></ion-title>
+            </ion-toolbar>
+        </ion-header> -->
+        
+            <ion-grid>
+                <ion-row class="ion-align-items-center" >
+                    <ion-col>
+                        <div v-if="!loginLocalStorage">
+                            <ion-card>
+                                <ion-item>
+                                    <!-- <ion-label position="floating" aria-label="Email" v-t="'insert_email'"></ion-label> -->
+                                    <ion-input v-model="email" type="email" labelPlacement="floating" aria-label="Email" label="Insert email" for="email" required></ion-input>
+                                </ion-item>
+                                <div v-if="validateEmail(email)">
+                                    <ion-button expand="block" @click="sendEmail" v-t="'send'"></ion-button>
+                                </div>
+                                <div v-else>
+                                    <ion-button expand="block" :disabled="true"  v-t="'send'"></ion-button>
+                                </div>
+                            </ion-card>
+                        </div>
 
-        <div v-else>
-            <ion-card>
-                <ion-card-title>
-                    Dashboard
-                </ion-card-title>
-                <ion-card-content>
-                    <p>Benvenuto, questo è il tuo dossier di investigatore.</p>
-                </ion-card-content>
-            </ion-card>
-        </div>
+                        <!-- Mostra un messaggio se la variabile email non è vuota -->
+                        <div v-else-if="loginLocalStorage === 'checkemail'">
+                            <ion-card>
+                                <ion-card-content>
+                                    <ion-card-title>
+                                        <h1>First step</h1>
+                                    </ion-card-title>
+                                    <p>Mysteryfy ti ha appena inviato un messaggio all'indirizzo che ci hai dato</p>
+                                    <p class="ion-text-center ion-padding">{{ email }}</p>
+                                    <p>Per favore, controlla il messaggio e clicca per confermare il tuo indirizzo.</p>
+                                    <div>
+                                        <ion-button @click="checkEmail" v-t="'emailChecked'" class="ion-justify-content-center ion-text-center ion-padding"></ion-button>
+                                    </div>
+                                </ion-card-content>
+                            </ion-card>
+                        </div>
+
+                        <div v-else>
+                            <ion-card>
+                                <ion-card-content>
+                                    <ion-card-title>
+                                        Dashboard
+                                    </ion-card-title>
+                                    <p>Benvenuto, questo è il tuo dossier di investigatore.</p>
+                                </ion-card-content>
+                            </ion-card>
+                        </div>
+
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
 
         </ion-content>
     </ion-page>
@@ -70,7 +83,10 @@ import {
     loadingController,
     IonCard,
     IonCardTitle,
-    IonCardContent
+    IonCardContent,
+    IonGrid,
+    IonRow,
+    IonCol
 } from '@ionic/vue';
 import { defineComponent, ref, onMounted, watchEffect } from 'vue';
 import { Preferences } from '@capacitor/preferences';
@@ -95,7 +111,10 @@ export default defineComponent({
     IonLoading,
     IonCard,
     IonCardTitle,
-    IonCardContent
+    IonCardContent,
+    IonGrid,
+    IonRow,
+    IonCol
     },
 
     setup() {
@@ -213,6 +232,14 @@ export default defineComponent({
                 }
             }
         },
-    }
+        setBackgroundImage() {
+            //this.$el.querySelector("body").style.backgroundImage = "url('src/assets/loginbkg.webp')";
+            //this.$el.getElementById("background-content").style.backgroundImage = "url(src/assets/loginbkp.webp";
+        }
+    },
+    mounted() {
+        //console.log("Pippo: ", this.$el.querySelector("div").style.backgroundColor) // I'm text inside the component.
+        this.$el.querySelector("div").style.backgroundColor = "#fff";
+    },
 });
 </script>
