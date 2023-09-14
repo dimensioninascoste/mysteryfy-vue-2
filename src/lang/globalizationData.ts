@@ -6,13 +6,15 @@ export const globalizationList = {
         emailChecked: 'Ok, I did it!',
         homeHome: 'Home',
         catalogHome: 'Cases',
+        catalog: 'Cases',
         profileHome: 'Detective',
+        infoHome: 'Info',
         title: 'Welcome',
         TITLE_2: 'Hello {value}',
         description: 'Ooohh .... did you just translate this text ?',
-        insert_email:   'Please, insert your email',
         dashboard_message: 'Please, check your email and confirm your address.',
         profileTitle: 'Profile page',
+        info_help: 'Info and support',
         data: {
             name: 'My name is {name_value}'
         }
@@ -24,13 +26,15 @@ export const globalizationList = {
         emailChecked: 'Ok, ho fatto',
         homeHome: 'Home',
         catalogHome: 'Casi',
+        catalog: 'Cases',
         profileHome: 'Detective',
+        infoHome: 'Info',
         title: 'Benvenuti',
         TITLE_2: 'Salve {value}',
         description: 'Ooohh .... hai tradotto questo testo?',
-        insert_email:   'Inserisci la tua email',
         dashboard_message: 'Controlla la tua email e conferma il tuo indirizzo.',
         profileTitle: 'Profilo dell\'investigatore',
+        info_help: 'Info and support',
         data: {
             name: 'Il mio nome è {name_value}'
         }
@@ -42,13 +46,15 @@ export const globalizationList = {
         emailChecked: 'Ok, hab ich gemacht!',
         homeHome: 'Home',
         catalogHome: 'Cases',
+        catalog: 'Cases',
         profileHome: 'Detective',
+        infoHome: 'Info',
         title: 'Wilkommen!',
         TITLE_2: 'Hallo {value}',
         profileTitle: 'Profil pagen',
         description: 'Ooohh .... hast du diesen Text übersetzt?',
-        insert_email:   'Please, insert your email',
         dashboard_message: 'Please, check your email and confirm your address.',
+        info_help: 'Info and support',
         data: {
             name: 'Il mio nome è {name_value}'
         }

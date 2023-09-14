@@ -2,43 +2,62 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Photo Gallery</ion-title>
+        <ion-title>Profile</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true">
-      <ion-fab vertical="bottom" horizontal="center" slot="fixed">
-        <ion-fab-button @click="takePhoto()">
-          <ion-icon :icon="camera"></ion-icon>
-        </ion-fab-button>
-      </ion-fab>
+    <ion-content :fullscreen="true" class="ion-padding">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">Photo Gallery</ion-title>
+          <ion-title size="large">Your investigation Pad</ion-title>
         </ion-toolbar>
       </ion-header>
 
-      <!-- <ExploreContainer name="Tab 2 page" /> -->
+      <ExploreContainer name="Tab 3 page" />
+      <div>
+        <h1 v-t="'profileTitle'"></h1>
+      </div>
+      <ion-list>
+        <ion-item id="locale-changer">
+          <ion-select v-model="$i18n.locale" label="Language" placeholder="choose language">
+            <!-- <ion-select-option v-for="(lang, i) in langs" :key="'Lang${i}'" :value="lang">{{ lang }}</ion-select-option> -->
+            <ion-select-option v-for="locale in $i18n.availableLocales" :key="`locale-${locale}`" :value="locale">{{ locale }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
     </ion-content>
   </ion-page>
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
 import {
-  IonContent,
-  IonCol,
-  IonFab,
-  IonFabButton,
-  IonGrid,
   IonPage,
   IonHeader,
-  IonIcon,
-  IonImg,
-  IonRow,
-  IonTitle,
   IonToolbar,
+  IonTitle,
+  IonContent,
+  IonList,
+  IonItem,
+  IonSelect,
+  IonSelectOption
 } from '@ionic/vue';
-import { camera, trash, close } from 'ionicons/icons';
-import { usePhotoGallery } from '@/composables/usePhotoGallery';
+import ExploreContainer from '@/components/ExploreContainer.vue';
+import { defineComponent } from 'vue';
 
-const { takePhoto } = usePhotoGallery();
+export default defineComponent({
+  components: {
+    IonPage,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonList,
+    IonItem,
+    IonSelect,
+    IonSelectOption
+  },
+  name: 'locale-changer',
+  data () {
+    return { names: ['italian', 'english', 'german'] }
+  },
+});
 </script>

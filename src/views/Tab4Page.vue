@@ -1,27 +1,41 @@
 <template>
   <ion-page>
-    <ion-content class="locale-changer">
-      <!-- <ion-select v-model="$i18n.locale"> -->
-        <!-- <ion-select-option v-for="(lang, i) in langs" :key="`Lang${i}`" :value="lang">
-          {{ lang }}
-        </ion-select-option> 
-      </ion-select>-->
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Info and help</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content :fullscreen="true" class="ion-padding">
+      <ion-header collapse="condense">
+        <ion-toolbar>
+          <ion-title size="large" v-t="'info_help'"></ion-title>
+        </ion-toolbar>
+      </ion-header>
+
+      <ExploreContainer name="Tab 4 page" />
+      <h1>Aiuti, informazioni e altro</h1>
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts">
 import {
-  IonContent,
   IonPage,
-  IonSelect,
-  IonSelectOption
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent
 } from '@ionic/vue';
+import { defineComponent } from 'vue';
 
-// export default {
-//   name: 'locale-changer',
-//   data () {
-//     return { langs: ['it', 'en', 'de'] }
-//   }
-// };
+export default defineComponent({
+  components: {
+    IonPage,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent
+  },
+});
+
 </script>

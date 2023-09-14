@@ -1,13 +1,13 @@
 <template>
-    <ion-page ref="setbackground">
+    <ion-page>
         <ion-header>
             <ion-toolbar>
                 <ion-title>Mysteryfy Home Page</ion-title>
             </ion-toolbar>
         </ion-header>
-        <ion-content style="background-color: aqua;">
+        <ion-content>
 
-            <!-- <ion-header collapse="condense">
+    <!-- <ion-header collapse="condense">
             <ion-toolbar>
                 <ion-title size="large" v-t="'welcome'"></ion-title>
             </ion-toolbar>
@@ -32,7 +32,9 @@
                         </div>
 
                         <!-- Mostra un messaggio se la variabile email non è vuota -->
-                        <div v-else-if="loginLocalStorage === 'checkemail'">
+                        <!-- <div v-else-if="loginLocalStorage === 'checkemail'"> -->
+                        <div v-else>
+
                             <ion-card>
                                 <ion-card-content>
                                     <ion-card-title>
@@ -48,7 +50,7 @@
                             </ion-card>
                         </div>
 
-                        <div v-else>
+<!--                         <div v-else>
                             <ion-card>
                                 <ion-card-content>
                                     <ion-card-title>
@@ -57,7 +59,7 @@
                                     <p>Benvenuto, questo è il tuo dossier di investigatore.</p>
                                 </ion-card-content>
                             </ion-card>
-                        </div>
+                        </div> -->
 
                     </ion-col>
                 </ion-row>
@@ -92,6 +94,7 @@ import { defineComponent, ref, onMounted, watchEffect } from 'vue';
 import { Preferences } from '@capacitor/preferences';
 import axios from 'axios';
 import { loginLocalStorage } from '@/components/globals.vue';
+import router from '@/router';
 
 export var fetchDateUrl = (date: string) => `https://www.mysteryfy.com/wp-json/newsletter/v2/subscribers/${date}?client_key=42aa7ec963b0fbbcbfa10e49a992ddccd3c0bdb5&client_secret=c080d95d498b04dd0763c739632561acc2938b4e`;
 
@@ -136,6 +139,12 @@ export default defineComponent({
             await loading.value.present();
         }
 
+        async function hideSpinner() {
+            if(loading) {
+                loading.value.dismiss();
+            }
+        }
+
         // Crea una funzione asincrona per verificare se la email dell'utente esiste già nel localstorage
         async function checkEmail() {
             // Ottieni il valore della chiave 'userEmail' nel localstorage
@@ -153,6 +162,7 @@ export default defineComponent({
                          //se lo status è confermato valorizzo la variabile per visualizzare la dashboard
                          if(response.data.status === "confirmed") {
                             loginLocalStorage.value = "dashboard";
+                            router.replace({ path: '/tabs/tab2' })
                          } else {
                             //se lo status non è confermato, restituisco un messaggio di controllare la propria mailbox
                             loginLocalStorage.value = "checkemail";
@@ -187,7 +197,8 @@ export default defineComponent({
             checkEmail();
             loginLocalStorage.value = "dashboard";
             //loading.value = false;
-            loading.value.dismiss();
+            //loading.value.dismiss();
+            hideSpinner();
         }
 
 /*         function checkUpdate(this: any) {
