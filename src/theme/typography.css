@@ -1,0 +1,15 @@
+/* Mysteryfy typography sets
+*/
+@font-face {
+    font-family: 'IMFellPica';
+    src: url(IMFePIrm28P.ttf);
+  }
+
+@font-face {
+    font-family: 'Quattrocento';
+    src: url(QuattrocentoSans-Regular.ttf);
+}
+
+p {
+    --ion-font-family: 'Quattrocento';
+}

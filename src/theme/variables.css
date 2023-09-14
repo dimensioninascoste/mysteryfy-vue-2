@@ -3,6 +3,23 @@ http://ionicframework.com/docs/theming/ */
 
 /** Ionic CSS Variables **/
 :root {
+  --ion-background-color: #333333;
+  --ion-background-color-rgb: 51,51,51;
+
+  --ion-text-color: #ffffff;
+  --ion-text-color-rgb: 255,255,255;
+
+  --ion-font-family: 'Quattrocento';
+
+  --ion-item-background: #1e1e1e;
+
+  --ion-toolbar-background: #333;
+
+  --ion-tab-bar-background: #000;
+
+  --ion-card-background: #1e1e1e;
+  --ion-card-color: #fff;
+
   /** primary **/
 	--ion-color-primary: #5A09D1;
 	--ion-color-primary-rgb: 90,9,209;
@@ -74,6 +91,10 @@ http://ionicframework.com/docs/theming/ */
   --ion-color-light-contrast-rgb: 0, 0, 0;
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
+}
+
+h1, h2 {
+  font-family: 'IMFellPica';
 }
 
 @media (prefers-color-scheme: dark) {
@@ -231,8 +252,8 @@ http://ionicframework.com/docs/theming/ */
    */
 
   .md body {
-    --ion-background-color: #121212;
-    --ion-background-color-rgb: 18,18,18;
+    --ion-background-color: #333333;
+    --ion-background-color-rgb: 51,51,51;
 
     --ion-text-color: #ffffff;
     --ion-text-color-rgb: 255,255,255;
