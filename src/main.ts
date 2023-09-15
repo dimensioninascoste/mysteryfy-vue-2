@@ -49,8 +49,6 @@ await Device.getLanguageCode().then((res) => {
     preserveDirectiveContent: true
   });
 
-  console.log(i18n)
-
   const app = createApp(App)
   .use(IonicVue)
   .use(router)

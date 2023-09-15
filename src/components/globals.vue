@@ -1,11 +1,9 @@
 <script lang="ts">
 import { ref } from 'vue';
 import router from '@/router';
+import { Preferences } from '@capacitor/preferences';
 
-    export const loginLocalStorage = ref('');
 
-    export const backToLogin = function() {
-        router.push({ path: '/tabs/tab1' })
-    }
+export const loginLocalStorage = ref()
 
 </script>
