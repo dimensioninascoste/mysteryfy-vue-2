@@ -5,7 +5,7 @@
         <ion-title>Mysteryfy</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true" class="ion-padding">
+    <ion-content :fullscreen="true" class="ion-padding" ref="maincontent">
       <ion-header collapse="condense">
         <ion-toolbar>
           <ion-title size="large">Your investigation Pad</ion-title>
@@ -20,7 +20,7 @@
       <ion-grid>
         <ion-row class="ion-justify-content-center">
           <ion-col size="4">
-                <ion-avatar slot="start">
+                <ion-avatar>
                   <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
                 </ion-avatar>
           </ion-col>
@@ -87,7 +87,7 @@ export default defineComponent({
     IonLabel,
     IonAvatar,
     IonSelect,
-    IonSelectOption
+    IonSelectOption,
   },
   name: 'locale-changer',
   data () {
@@ -107,6 +107,9 @@ export default defineComponent({
     return {
       email
     }
+  },
+  mounted() {
+    this.$el.$refs.maincontent.style.backgroundColor = "#fff";
   }
 });
 </script>
