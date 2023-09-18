@@ -1,4 +1,6 @@
 <template>
+    <div id="background-content" style="height: 100%;background-color: aqua;"></div>
+
     <ion-page>
         <ion-header>
             <ion-toolbar>
@@ -7,7 +9,7 @@
         </ion-header>
         <ion-content>
 
-    <!-- <ion-header collapse="condense">
+            <!-- <ion-header collapse="condense">
             <ion-toolbar>
                 <ion-title size="large" v-t="'welcome'"></ion-title>
             </ion-toolbar>
@@ -16,7 +18,7 @@
             <ion-grid>
                 <ion-row class="ion-align-items-center" >
                     <ion-col>
-                        <div v-if="!loginLocalStorage">
+                        <div>
                             <ion-card>
                                 <ion-item>
                                     <!-- <ion-label position="floating" aria-label="Email" v-t="'insert_email'"></ion-label> -->
@@ -32,8 +34,7 @@
                         </div>
 
                         <!-- Mostra un messaggio se la variabile email non è vuota -->
-                        <!-- <div v-else-if="loginLocalStorage === 'checkemail'"> -->
-                        <div v-else>
+                        <div>
                             <ion-card>
                                 <ion-card-content>
                                     <ion-card-title>
@@ -48,6 +49,18 @@
                                 </ion-card-content>
                             </ion-card>
                         </div>
+
+                        <div>
+                            <ion-card>
+                                <ion-card-content>
+                                    <ion-card-title>
+                                        Dashboard
+                                    </ion-card-title>
+                                    <p>Benvenuto, questo è il tuo dossier di investigatore.</p>
+                                </ion-card-content>
+                            </ion-card>
+                        </div>
+
                     </ion-col>
                 </ion-row>
             </ion-grid>
@@ -80,8 +93,7 @@ import {
 import { defineComponent, ref, onMounted, watchEffect } from 'vue';
 import { Preferences } from '@capacitor/preferences';
 import axios from 'axios';
-import { loginLocalStorage } from '@/components/globals.vue';
-import router from '@/router';
+//import { loginLocalStorage } from '@/components/globals.vue';
 
 export var fetchDateUrl = (date: string) => `https://www.mysteryfy.com/wp-json/newsletter/v2/subscribers/${date}?client_key=42aa7ec963b0fbbcbfa10e49a992ddccd3c0bdb5&client_secret=c080d95d498b04dd0763c739632561acc2938b4e`;
 
@@ -113,7 +125,7 @@ export default defineComponent({
         const email = ref('');
         // const emailLocalStorage = loginLocalStorage;
         const loading = ref()
-        console.log("Valore di emailLocalStorage: ", loginLocalStorage)
+        //console.log("Valore di emailLocalStorage: ", loginLocalStorage)
 
         // Crea una funzione per mostrare lo spinner a piena pagina
         async function showSpinner() {
@@ -124,12 +136,6 @@ export default defineComponent({
                 translucent: true,
             });
             await loading.value.present();
-        }
-
-        async function hideSpinner() {
-            if(loading) {
-                loading.value.dismiss();
-            }
         }
 
         // Crea una funzione asincrona per verificare se la email dell'utente esiste già nel localstorage
@@ -148,22 +154,21 @@ export default defineComponent({
                          console.log("Risposta del server: ", response.data.status)
                          //se lo status è confermato valorizzo la variabile per visualizzare la dashboard
                          if(response.data.status === "confirmed") {
-                            loginLocalStorage.value = "dashboard";
-                            router.replace({ path: '/tabs/tab2' })
+                            //loginLocalStorage.value = "dashboard";
                          } else {
                             //se lo status non è confermato, restituisco un messaggio di controllare la propria mailbox
-                            loginLocalStorage.value = "checkemail";
+                            //loginLocalStorage.value = "checkemail";
                          }
                     })
                     //loginLocalStorage.value = "checkemail";
-                    console.log("LocalStorage presente: ", value, "Valore di loginLocalStorage: ", loginLocalStorage)
+                    //console.log("LocalStorage presente: ", value, "Valore di loginLocalStorage: ", loginLocalStorage)
                 }
 
             // Se il valore non esiste, lascia la variabile email vuota
                 else { 
                     //email.value = '';
-                    loginLocalStorage.value = "";
-                    console.log("non c'è localStorage. Valore loginLocalStorage: ", loginLocalStorage)
+                    //loginLocalStorage.value = "";
+                    //console.log("non c'è localStorage. Valore loginLocalStorage: ", loginLocalStorage)
                 }
                 loading.value.dismiss();
             }
@@ -182,10 +187,9 @@ export default defineComponent({
             
             // Richiamo la funzione di controllo della localStorage e dello status di conferma dell'email
             checkEmail();
-            loginLocalStorage.value = "dashboard";
+            //loginLocalStorage.value = "dashboard";
             //loading.value = false;
-            //loading.value.dismiss();
-            hideSpinner();
+            loading.value.dismiss();
         }
 
 /*         function checkUpdate(this: any) {
@@ -212,7 +216,7 @@ export default defineComponent({
             showSpinner,
             checkEmail,
             sendEmail,
-            loginLocalStorage
+            //loginLocalStorage
         };
     },
     methods: {
@@ -230,20 +234,14 @@ export default defineComponent({
                 }
             }
         },
-        setBackgroundImage() {
-            //this.$el.querySelector("body").style.backgroundImage = "url('src/assets/loginbkg.webp')";
-            //this.$el.getElementById("background-content").style.backgroundImage = "url(src/assets/loginbkp.webp";
-        }
-    },
-    mounted() {
-        //console.log("Pippo: ", this.$el.querySelector("div").style.backgroundColor) // I'm text inside the component.
-        this.$el.querySelector("div").style.backgroundColor = "#fff";
-    },
+    }
 });
 </script>
 
+
 <style scoped>
-    ion-content {
-        background-image: url('@src/assets/loginbkp.webp');
-    }
+ion-content {
+    background-image: url("/src/assets/loginbkg.webp");
+    background-size: cover;
+}
 </style>
