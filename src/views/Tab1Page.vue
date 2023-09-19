@@ -13,8 +13,8 @@
             </ion-toolbar>
         </ion-header> -->
         
-            <ion-grid>
-                <ion-row class="ion-align-items-center" >
+            <ion-grid style="height:100%">
+                <ion-row class="ion-align-items-center" style="height:100%">
                     <ion-col>
                         <div v-if="!loginLocalStorage">
                             <ion-card>
@@ -229,21 +229,15 @@ export default defineComponent({
                     console.log("email ok");
                 }
             }
-        },
-        setBackgroundImage() {
-            //this.$el.querySelector("body").style.backgroundImage = "url('src/assets/loginbkg.webp')";
-            //this.$el.getElementById("background-content").style.backgroundImage = "url(src/assets/loginbkp.webp";
         }
-    },
-    mounted() {
-        //console.log("Pippo: ", this.$el.querySelector("div").style.backgroundColor) // I'm text inside the component.
-        this.$el.querySelector("div").style.backgroundColor = "#fff";
     },
 });
 </script>
 
 <style scoped>
     ion-content {
-        background-image: url('@src/assets/loginbkp.webp');
+        --background: none !important;
+        background-image: url('./src/assets/loginbkg.webp');
+        background-size: cover; 
     }
 </style>
