@@ -14,6 +14,14 @@
         </ion-header> -->
         
             <ion-grid style="height:100%">
+                <ion-row>
+                    <ion-col>
+                        <h2 v-t="'welcome'"></h2>
+                        <p v-t="'welcome_message'"></p>
+                        <p v-t="'privacy_policy'"></p><span v-html="$t('link_to_privacy')"></span>
+                        
+                    </ion-col>
+                </ion-row>
                 <ion-row class="ion-align-items-center" style="height:100%">
                     <ion-col>
                         <div v-if="!loginLocalStorage">
@@ -82,6 +90,9 @@ import { Preferences } from '@capacitor/preferences';
 import axios from 'axios';
 import { loginLocalStorage } from '@/components/globals.vue';
 import router from '@/router';
+
+const en_privacy_link = "https://www.iubenda.com/privacy-policy/33072070";
+const it_privacy_link = "https://www.iubenda.com/privacy-policy/61536869";
 
 export var fetchDateUrl = (date: string) => `https://www.mysteryfy.com/wp-json/newsletter/v2/subscribers/${date}?client_key=42aa7ec963b0fbbcbfa10e49a992ddccd3c0bdb5&client_secret=c080d95d498b04dd0763c739632561acc2938b4e`;
 

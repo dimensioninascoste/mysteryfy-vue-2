@@ -5,7 +5,7 @@
         <ion-title>Mysteryfy</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true" class="ion-padding" ref="maincontent">
+    <ion-content :fullscreen="true" class="ion-padding">
       <ion-header collapse="condense">
         <ion-toolbar>
           <ion-title size="large">Your investigation Pad</ion-title>
@@ -107,9 +107,6 @@ export default defineComponent({
     return {
       email
     }
-  },
-  mounted() {
-    this.$el.$refs.maincontent.style.backgroundColor = "#fff";
   }
 });
 </script>
