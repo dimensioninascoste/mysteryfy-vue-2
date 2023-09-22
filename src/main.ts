@@ -38,8 +38,10 @@ await Device.getLanguageCode().then((res) => {
     var deviceLang;
     const language = res.value.split('-')[0];
     deviceLang = language;
+    console.log(deviceLang)
   } else {
     deviceLang = res.value;
+    console.log(deviceLang)
   }
 
   const i18n = createI18n({

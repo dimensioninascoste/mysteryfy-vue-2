@@ -17,6 +17,8 @@ export const globalizationList = {
         description: 'Ooohh .... did you just translate this text ?',
         dashboard_message: 'Please, check your email and confirm your address.',
         profileTitle: 'Profile page',
+        terms_title: 'Terms and conditions',
+        privacy_title: 'Privacy Policy',
         info_help: 'Info and support',
         data: {
             name: 'My name is {name_value}',
@@ -40,6 +42,8 @@ export const globalizationList = {
         description: 'Ooohh .... hai tradotto questo testo?',
         dashboard_message: 'Controlla la tua email e conferma il tuo indirizzo.',
         profileTitle: 'Profilo dell\'investigatore',
+        terms_title: 'Termini e condizioni',
+        privacy_title: 'Informativa sul trattamento dei dati',
         info_help: 'Info and support',
         data: {
             name: 'Il mio nome è {name_value}',
@@ -62,6 +66,8 @@ export const globalizationList = {
         profileTitle: 'Profil pagen',
         description: 'Ooohh .... hast du diesen Text übersetzt?',
         dashboard_message: 'Please, check your email and confirm your address.',
+        terms_title: 'Terms and conditions',
+        privacy_title: 'Privacy Policy',
         info_help: 'Info and support',
         data: {
             name: 'Il mio nome è {name_value}',

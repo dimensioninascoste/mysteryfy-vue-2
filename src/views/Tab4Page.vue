@@ -1,20 +1,6 @@
 <template>
   <ion-page>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Info and help</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content :fullscreen="true" class="ion-padding">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large" v-t="'info_help'"></ion-title>
-        </ion-toolbar>
-      </ion-header>
-
-      <ExploreContainer name="Tab 4 page" />
-      <h1>Aiuti, informazioni e altro</h1>
-    </ion-content>
+    <ion-nav :root="component"></ion-nav>
   </ion-page>
 </template>
 
@@ -24,9 +10,11 @@ import {
   IonHeader,
   IonToolbar,
   IonTitle,
-  IonContent
+  IonContent,
+  IonNav
 } from '@ionic/vue';
-import { defineComponent } from 'vue';
+import { defineComponent, markRaw } from 'vue';
+import Terms from '@/components/Terms.vue';
 
 export default defineComponent({
   components: {
@@ -34,8 +22,14 @@ export default defineComponent({
     IonHeader,
     IonToolbar,
     IonTitle,
-    IonContent
+    IonContent,
+    IonNav
   },
+  data() {
+    return {
+      component: markRaw(Terms),
+    }
+  }
 });
 
 </script>
