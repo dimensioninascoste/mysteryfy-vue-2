@@ -33,6 +33,9 @@ import { createI18n } from 'vue-i18n';
 import { globalizationList } from '@/lang/globalizationData';
 import { Device, DevicePlugin } from '@capacitor/device';
 
+/* Import Vue3 Google Login */
+import vue3GoogleLogin from 'vue3-google-login'
+
 await Device.getLanguageCode().then((res) => {
   if (res.value.includes('-')) {
     var deviceLang;
@@ -51,10 +54,15 @@ await Device.getLanguageCode().then((res) => {
     preserveDirectiveContent: true
   });
 
+  let CLIENT_ID = '968074210001-86bg25lik4j22cfc03mgheo01pa0ajro.apps.googleusercontent.com'; //TEST BACKEND
+
   const app = createApp(App)
   .use(IonicVue)
   .use(router)
-  .use(i18n);
+  .use(i18n)
+  .use(vue3GoogleLogin, {
+    clientId: CLIENT_ID
+  });
   
   router.isReady().then(() => {
     app.mount('#app');
