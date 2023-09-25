@@ -12,12 +12,16 @@
         </ion-toolbar>
       </ion-header>
 
-      <ExploreContainer name="Tab 3 page" />
-      <div>
-        <h1 v-t="'profileTitle'"></h1>
-      </div>
-      
+      <ExploreContainer name="Home page" />     
       <ion-grid>
+        <ion-row>
+          <ion-col size="9">
+            <h1 v-t="'profileTitle'"></h1>
+          </ion-col>
+          <ion-col size="3">
+            <ion-icon :icon="ellipsisVerticalOutline"></ion-icon>
+          </ion-col>
+        </ion-row>
         <ion-row class="ion-justify-content-center">
           <ion-col size="4">
                 <ion-avatar>
@@ -35,6 +39,9 @@
         <ion-row class="ion-justify-content-center" style="height: 50%">
           <ion-col size="3"> 1 </ion-col>
           <ion-col size="3"> 2 </ion-col>
+        </ion-row>
+        <ion-row>
+          <button @click="logout" :icon="logOut">Logout</button>
         </ion-row>
       </ion-grid>
 
@@ -59,6 +66,7 @@ import {
   IonGrid,
   IonRow,
   IonCol,
+  IonIcon,
   IonList,
   IonItem,
   IonThumbnail,
@@ -68,8 +76,22 @@ import {
   IonSelectOption
 } from '@ionic/vue';
 import ExploreContainer from '@/components/ExploreContainer.vue';
-import { defineComponent, ref } from 'vue';
+import { defineComponent, onBeforeMount, ref } from 'vue';
 import { Preferences } from '@capacitor/preferences';
+import { ellipsisVerticalOutline, logOut } from 'ionicons/icons';
+import { googleLogout } from 'vue3-google-login';
+import { loggedIn } from '@/components/globals.vue';
+
+import router from '@/router';
+
+onBeforeMount(() => {
+  console.log("On before mount")
+  if(!loggedIn) {
+            router.replace({ path: '/tabs/login' })        
+        } else {
+            console.log("utente collegato")
+        }
+});
 
 export default defineComponent({
   components: {
@@ -81,6 +103,7 @@ export default defineComponent({
     IonGrid,
     IonRow,
     IonCol,
+    IonIcon,
     IonList,
     IonItem,
     IonThumbnail,
@@ -94,8 +117,14 @@ export default defineComponent({
     return { names: ['italian', 'english', 'german'] }
   },
   methods: {
-
-  },
+      logout() {
+        googleLogout()
+        console.log("Logged out")
+        this.loggedIn = false
+                router.replace({ path: '/tabs/login' })
+                return logToken = null;
+      }
+    },
   setup() {
     const email = ref('');
     async () => {
@@ -105,7 +134,10 @@ export default defineComponent({
         }
       }
     return {
-      email
+      email,
+      logOut,
+      ellipsisVerticalOutline,
+      logToken
     }
   }
 });
