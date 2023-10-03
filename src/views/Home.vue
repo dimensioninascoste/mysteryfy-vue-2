@@ -73,25 +73,25 @@ import {
   IonLabel,
   IonAvatar,
   IonSelect,
-  IonSelectOption
+  IonSelectOption,
+modalController
 } from '@ionic/vue';
 import ExploreContainer from '@/components/ExploreContainer.vue';
 import { defineComponent, onBeforeMount, ref } from 'vue';
 import { Preferences } from '@capacitor/preferences';
 import { ellipsisVerticalOutline, logOut } from 'ionicons/icons';
 import { googleLogout } from 'vue3-google-login';
-import { loggedIn } from '@/components/globals.vue';
+import { ifLoggedIn } from '@/components/globals.vue';
 
 import router from '@/router';
 
-onBeforeMount(() => {
-  console.log("On before mount")
-  if(!loggedIn) {
-            router.replace({ path: '/tabs/login' })        
-        } else {
-            console.log("utente collegato")
-        }
-});
+//manage login as modal
+import Modal from '@/components/Login.vue';
+const openLogin = () => {
+  modalController.create({
+    component: Modal,
+  })
+}
 
 export default defineComponent({
   components: {
@@ -113,6 +113,28 @@ export default defineComponent({
     IonSelectOption,
   },
   name: 'locale-changer',
+  setup() {
+    const email = ref('');
+    const logToken = ref();
+    async () => {
+      const { value } = await Preferences.get({ key: 'userEmail' });
+        if(value) {
+          email.value = value
+        }
+      }
+    onBeforeMount(() => {
+      modalController.create({
+          component: Modal,
+        })
+        console.log("dopo il Modal")
+      });
+    return {
+      email,
+      logOut,
+      ellipsisVerticalOutline,
+      logToken
+    }
+  },
   data () {
     return { names: ['italian', 'english', 'german'] }
   },
@@ -120,25 +142,9 @@ export default defineComponent({
       logout() {
         googleLogout()
         console.log("Logged out")
-        this.loggedIn = false
-                router.replace({ path: '/tabs/login' })
-                return logToken = null;
+        router.replace({ path: '/tabs/login' })
       }
     },
-  setup() {
-    const email = ref('');
-    async () => {
-      const { value } = await Preferences.get({ key: 'userEmail' });
-        if(value) {
-          email.value = value
-        }
-      }
-    return {
-      email,
-      logOut,
-      ellipsisVerticalOutline,
-      logToken
-    }
-  }
+  
 });
 </script>

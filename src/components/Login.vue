@@ -1,5 +1,7 @@
+<!-- login modal -->
+
 <template>
-  <ion-page>
+  <ion-content class="ion-padding">
     <ion-router-outlet />
     <ion-grid>
       <ion-row>
@@ -11,28 +13,28 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-  </ion-page>
+  </ion-content>
 </template>
 
-<script setup lang="ts">
-import { 
-  IonPage,
-  IonRouterOutlet,
-  IonGrid,
-  IonRow,
-  IonCol,
+<script lang="ts" setup>
+  import {
+    IonContent,
+    IonRouterOutlet,
+    IonGrid,
+    IonRow,
+    IonCol,
+    modalController,
   } from '@ionic/vue';
+  import { defineComponent, ref } from 'vue';
+  const name = ref();
+
+  //const cancel = () => modalController.dismiss(null, 'cancel');
+  //const confirm = () => modalController.dismiss(name.value, 'confirm');
+
+
 import { GoogleLogin, decodeCredential, googleAuthCodeLogin, googleLogout } from 'vue3-google-login';
 import router from '@/router';
 import { loggedIn } from '@/components/globals.vue';
-
-/*   const login = () => {
-    googleAuthCodeLogin().then((response) => {
-    console.log("Gestisco la risposta", response)
-    //this.loggedIn = true;
-    router.push({ path: '/tabs/home' })
-  })
-} */
 
 import type { CallbackTypes } from 'vue3-google-login';
 
@@ -40,23 +42,8 @@ const loginCallback: CallbackTypes.TokenResponseCallback = (response) => {
   console.log("Access Token", response.access_token);
   const logToken = response.access_token
   //invece di spingere la vista a /tabs/home, devo dismettere il modal
-  router.push({ path: '/tabs/home' })
+  //router.push({ path: '/tabs/home' })
+  modalController.dismiss();
   console.log("valore di logToken", logToken)
 }
-
-
-/*   export default {
-  data() {
-    return {
-      user: null,
-      callback: (response: any) => {
-        console.log("logged in")
-        this.loggedIn = true
-        console.log(response)
-        this.user = decodeCredential(response.credential)
-        router.replace({ path: '/tabs/home' })        
-      }
-    }
-  },
-} */
 </script>

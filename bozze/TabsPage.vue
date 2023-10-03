@@ -39,4 +39,15 @@ import router from '@/router';
 import { loggedIn } from '@/components/globals.vue';
 import logToken from '@/views/Login.vue'
 
+
+onBeforeMount(async () => {
+  const { value } = await Preferences.get({ key: 'userEmail' });
+  if(value) {
+    loginLocalStorage.value = true
+    console.log("loginLocalStorage.value: ", loginLocalStorage.value)
+  } else {
+    router.push({ path: '/tabs/login' })
+  }
+})
+
 </script>
