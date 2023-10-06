@@ -67,7 +67,7 @@
         </ion-row>
         <ion-row>
           <ion-col offset="2" size="8" class="ion-justify-content-center" style="display: flex">          
-            <ion-button color="light" size="small" fill="outline" @click="profileLogout" :icon="logOut">Log Out</ion-button>
+            <ion-button color="light" size="small" fill="outline" @click="profileLogout" :icon="logOut" v-t="'home_LogOut'"></ion-button>
           </ion-col>
         </ion-row>
       </ion-grid>
