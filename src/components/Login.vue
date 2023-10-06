@@ -6,7 +6,7 @@
     <ion-grid>
       <ion-row>
         <ion-col>
-          <GoogleLogin :callback="loginCallback" popup-type="TOKEN">
+          <GoogleLogin :callback="loginCallback" popup-type="TOKEN" prompt auto-login>
             <button>Login Using Google</button>
           </GoogleLogin>
           <!-- <button @click="login">Login Using Google</button> -->
@@ -16,7 +16,7 @@
   </ion-content>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts">
   import {
     IonContent,
     IonRouterOutlet,
@@ -28,22 +28,25 @@
   import { defineComponent, ref } from 'vue';
   const name = ref();
 
-  //const cancel = () => modalController.dismiss(null, 'cancel');
-  //const confirm = () => modalController.dismiss(name.value, 'confirm');
-
-
 import { GoogleLogin, decodeCredential, googleAuthCodeLogin, googleLogout } from 'vue3-google-login';
-import router from '@/router';
-import { loggedIn } from '@/components/globals.vue';
-
 import type { CallbackTypes } from 'vue3-google-login';
 
-const loginCallback: CallbackTypes.TokenResponseCallback = (response) => {
-  console.log("Access Token", response.access_token);
-  const logToken = response.access_token
-  //invece di spingere la vista a /tabs/home, devo dismettere il modal
-  //router.push({ path: '/tabs/home' })
-  modalController.dismiss();
-  console.log("valore di logToken", logToken)
-}
+export default defineComponent({
+  components: {},
+  setup() {
+    const loginCallback: CallbackTypes.TokenResponseCallback = (response) => {
+        console.log("Access Token", response.access_token);
+        const logToken = response.access_token
+        //invece di spingere la vista a /tabs/home, devo dismettere il modal
+        //router.push({ path: '/tabs/home' })
+        modalController.dismiss();
+        return {
+          logToken
+        }
+      }
+    return {
+      loginCallback,
+    }
+  },
+});
 </script>

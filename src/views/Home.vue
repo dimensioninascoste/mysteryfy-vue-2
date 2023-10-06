@@ -15,43 +15,63 @@
       <ExploreContainer name="Home page" />     
       <ion-grid>
         <ion-row>
-          <ion-col size="9">
+          <ion-col size="9" size-lg="7" offset-lg="2" class="ion-text-center">
             <h1 v-t="'profileTitle'"></h1>
           </ion-col>
-          <ion-col size="3">
-            <ion-icon :icon="ellipsisVerticalOutline"></ion-icon>
+          <ion-col size="1" size-lg="1">
+            <h1 class="ion-text-end"><ion-icon :icon="ellipsisVerticalOutline"></ion-icon></h1>
           </ion-col>
         </ion-row>
-        <ion-row class="ion-justify-content-center">
-          <ion-col size="4">
+        <ion-row>
+          <ion-col offset="4" offset-lg="2" class="ion-justify-content-center" style="display: flex;">
                 <ion-avatar>
                   <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
                 </ion-avatar>
           </ion-col>
-          <ion-col size="8">
+          <ion-col size="8" size-lg="6">
             <ion-label style="height: 50%">
                   <h1>Miss Marple</h1>
-                  <p>email: {{ email }}</p>
                   <p>1969</p>
                 </ion-label>
           </ion-col>
         </ion-row>
-        <ion-row class="ion-justify-content-center" style="height: 50%">
+
+        <ion-row>
+          <ion-col class="ion-text-center" size="6" offset-lg="3">
+            <h2 v-t="'home_storyPlayed'"></h2>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center" style="height: 20vh">
           <ion-col size="3"> 1 </ion-col>
           <ion-col size="3"> 2 </ion-col>
         </ion-row>
+
         <ion-row>
-          <button @click="logout" :icon="logOut">Logout</button>
+          <ion-col class="ion-text-center" size="6" offset-lg="3">
+            <h2 v-t="'home_nextStory'"></h2>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center" style="height: 20vh">
+          <ion-col size="3"> 1 </ion-col>
+          <ion-col size="3"> 2 </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col offset="2" size="8" offset-lg="4" size-lg="4">          
+            <ion-item id="locale-changer">
+              <ion-select v-model="$i18n.locale" label="Language" placeholder="choose language">
+                <ion-select-option v-for="locale in $i18n.availableLocales" :key="`locale-${locale}`" :value="locale">{{ locale }}</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col offset="2" size="8" class="ion-justify-content-center" style="display: flex">          
+            <ion-button color="light" size="small" fill="outline" @click="profileLogout" :icon="logOut">Log Out</ion-button>
+          </ion-col>
         </ion-row>
       </ion-grid>
 
-      <ion-list>
-        <ion-item id="locale-changer">
-          <ion-select v-model="$i18n.locale" label="Language" placeholder="choose language">
-            <ion-select-option v-for="locale in $i18n.availableLocales" :key="`locale-${locale}`" :value="locale">{{ locale }}</ion-select-option>
-          </ion-select>
-        </ion-item>
-      </ion-list>
     </ion-content>
   </ion-page>
 </template>
@@ -74,19 +94,17 @@ import {
   IonAvatar,
   IonSelect,
   IonSelectOption,
-modalController
+  modalController,
+  IonButton
 } from '@ionic/vue';
 import ExploreContainer from '@/components/ExploreContainer.vue';
 import { defineComponent, onBeforeMount, ref } from 'vue';
 import { Preferences } from '@capacitor/preferences';
 import { ellipsisVerticalOutline, logOut } from 'ionicons/icons';
 import { googleLogout } from 'vue3-google-login';
-import { ifLoggedIn } from '@/components/globals.vue';
-
-import router from '@/router';
+import Modal from '@/components/Login.vue';
 
 //manage login as modal
-import Modal from '@/components/Login.vue';
 const openLogin = () => {
   modalController.create({
     component: Modal,
@@ -111,6 +129,7 @@ export default defineComponent({
     IonAvatar,
     IonSelect,
     IonSelectOption,
+    IonButton
   },
   name: 'locale-changer',
   setup() {
@@ -121,30 +140,25 @@ export default defineComponent({
         if(value) {
           email.value = value
         }
+      };
+    const profileLogout = async () => {
+        googleLogout()
+        console.log("Logged out")
+        const modal = await modalController.create({
+            component: Modal,
+          });
+        modal.present();
       }
-    onBeforeMount(() => {
-      modalController.create({
-          component: Modal,
-        })
-        console.log("dopo il Modal")
-      });
+    onBeforeMount(profileLogout);
     return {
       email,
       logOut,
       ellipsisVerticalOutline,
-      logToken
+      profileLogout
     }
   },
   data () {
     return { names: ['italian', 'english', 'german'] }
   },
-  methods: {
-      logout() {
-        googleLogout()
-        console.log("Logged out")
-        router.replace({ path: '/tabs/login' })
-      }
-    },
-  
 });
 </script>
