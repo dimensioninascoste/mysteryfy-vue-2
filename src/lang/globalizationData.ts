@@ -15,6 +15,13 @@ export const globalizationList = {
         home_storyPlayed: 'You have played',
         home_nextStory: 'Go on now! Story to investigate:',
         home_LogOut: 'Logout',
+
+        legal_Title: 'Informations',
+        legal_Terms: 'Terms',
+        legal_Privacy: 'Privacy Policy',
+        legal_FAQ: 'FAQ',
+        legal_Home: 'Some words about this page',
+
         title: 'Welcome',
         TITLE_2: 'Hello {value}',
         description: 'Ooohh .... did you just translate this text ?',
@@ -26,7 +33,6 @@ export const globalizationList = {
         data: {
             name: 'My name is {name_value}',
             link_to_privacy: 'Read the Privacy Policy {en_privacy_link}',
-
         }
     },
     it: {
@@ -43,6 +49,13 @@ export const globalizationList = {
         home_storyPlayed: 'Le indagini che hai concluso',
         home_nextStory: 'La tua prossima indagine...',
         home_LogOut: 'Esci dall\'acount',
+
+        legal_Title: 'Informazioni su Dimensioni Nascoste',
+        legal_Terms: 'Termini e condizioni',
+        legal_Privacy: 'Informativa sui dati personli',
+        legal_FAQ: 'FAQ',
+        legal_Home: 'Some words about this page',
+
         title: 'Benvenuti',
         TITLE_2: 'Salve {value}',
         description: 'Ooohh .... hai tradotto questo testo?',
@@ -67,6 +80,17 @@ export const globalizationList = {
         catalog: 'Cases',
         profileHome: 'Detective',
         infoHome: 'Info',
+
+        home_storyPlayed: 'Le indagini che hai concluso',
+        home_nextStory: 'La tua prossima indagine...',
+        home_LogOut: 'Esci dall\'acount',
+
+        legal_Title: 'Informations',
+        legal_Terms: 'Terms',
+        legal_Privacy: 'Privacy Policy',
+        legal_FAQ: 'FAQ',
+        legal_Home: 'Some words about this page',
+
         title: 'Wilkommen!',
         TITLE_2: 'Hallo {value}',
         profileTitle: 'Profil pagen',
