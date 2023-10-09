@@ -36,6 +36,5 @@
       IonButtons,
       IonBackButton
     },
-
   };
 </script>

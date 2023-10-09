@@ -14,7 +14,11 @@ import {
   IonNav
 } from '@ionic/vue';
 import { defineComponent, markRaw } from 'vue';
-import Terms from '@/components/Terms.vue';
+import Legal from '@/components/Legal.vue';
+
+//manage login as modal
+import { ifLoggedIn } from '@/components/globals.vue';
+ifLoggedIn();
 
 export default defineComponent({
   components: {
@@ -27,7 +31,7 @@ export default defineComponent({
   },
   data() {
     return {
-      component: markRaw(Terms),
+      component: markRaw(Legal),
     }
   }
 });
