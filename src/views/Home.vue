@@ -12,7 +12,7 @@
         </ion-toolbar>
       </ion-header>
 
-      <ExploreContainer name="Home page" />     
+      <!-- <ExploreContainer name="Home page" />      -->
       <ion-grid>
         <ion-row>
           <ion-col size="9" size-lg="7" offset-lg="2" class="ion-text-center">
@@ -68,6 +68,8 @@
         <ion-row>
           <ion-col offset="2" size="8" class="ion-justify-content-center" style="display: flex">          
             <ion-button color="light" size="small" fill="outline" @click="profileLogout" :icon="logOut" v-t="'home_LogOut'"></ion-button>
+            <!-- <ion-button color="light" size="small" fill="outline" @click="profileLogin" :icon="logOut">Login</ion-button> -->
+
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -97,19 +99,17 @@ import {
   modalController,
   IonButton
 } from '@ionic/vue';
-import ExploreContainer from '@/components/ExploreContainer.vue';
+//import ExploreContainer from '@/components/ExploreContainer.vue';
 import { defineComponent, onBeforeMount, ref } from 'vue';
 import { Preferences } from '@capacitor/preferences';
 import { ellipsisVerticalOutline, logOut } from 'ionicons/icons';
-import { googleLogout } from 'vue3-google-login';
+import { googleLogout, googleTokenLogin } from 'vue3-google-login';
 import Modal from '@/components/Login.vue';
+import logToken from '@/components/Login.vue';
 
 //manage login as modal
-const openLogin = () => {
-  modalController.create({
-    component: Modal,
-  })
-}
+import { ifLoggedIn } from '@/components/globals.vue';
+ifLoggedIn();
 
 export default defineComponent({
   components: {
@@ -133,14 +133,21 @@ export default defineComponent({
   },
   name: 'locale-changer',
   setup() {
+    //ifLoggedIn();
     const email = ref('');
-    const logToken = ref();
+    //const logToken = ref();
     async () => {
       const { value } = await Preferences.get({ key: 'userEmail' });
         if(value) {
           email.value = value
         }
       };
+    // const profileLogin = () => {
+    //   googleTokenLogin().then((response) => {
+    //     console.log("Handle the response", response)
+    //   })
+    // }
+
     const profileLogout = async () => {
         googleLogout()
         console.log("Logged out")
@@ -148,13 +155,16 @@ export default defineComponent({
             component: Modal,
           });
         modal.present();
+        console.log("apro il modal")
       }
-    onBeforeMount(profileLogout);
+
+    //onBeforeMount(profileLogout);
     return {
       email,
       logOut,
       ellipsisVerticalOutline,
-      profileLogout
+      profileLogout,
+      //profileLogin
     }
   },
   data () {

@@ -1,19 +1,31 @@
 <script lang="ts">
-import { ref, onBeforeMount } from 'vue';
-import router from '@/router';
-import { Preferences } from '@capacitor/preferences';
+import { ref} from 'vue';
+import { modalController } from '@ionic/vue';
+
+// import logToken from '@/components/Login.vue';
+import Modal from '@/components/Login.vue';
+import { googleTokenLogin } from 'vue3-google-login';
+
+import logToken from '@/components/Login.vue';
 
 export const loginLocalStorage = ref()
 
-export const loggedIn = '';
+function toLogin() {
+    console.log("entrato in toLogin")
+    async () => {
+        const modal = await modalController.create({
+            component: Modal,
+          });
+        modal.present();
+        console.log("Modal aperto?")
+    }
+}
 
 export function ifLoggedIn() {
-        if(!loggedIn) {
-            router.replace({ path: '/tabs/login' })        
-        } else {
-            console.log("utente collegato")
+        if(logToken) {
+            toLogin();
         }
+    console.log("esco da ifLoggedIn")
     }
-
 
 </script>
