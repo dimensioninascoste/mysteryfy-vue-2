@@ -65,6 +65,13 @@ import {
 import { gift } from 'ionicons/icons';
 import { defineComponent } from 'vue';
 
+import { isAuth } from '@/components/globals.vue';
+import { openLoginModal } from '@/components/globals.vue';
+
+if(!isAuth.value) {
+  openLoginModal.present();
+}
+
 export default defineComponent({
   components: {
     IonPage,

@@ -37,7 +37,7 @@
         </ion-row>
 
         <ion-row>
-          <ion-col class="ion-text-center" size="6" offset-lg="3">
+          <ion-col class="ion-text-center">
             <h2 v-t="'home_storyPlayed'"></h2>
           </ion-col>
         </ion-row>
@@ -47,7 +47,7 @@
         </ion-row>
 
         <ion-row>
-          <ion-col class="ion-text-center" size="6" offset-lg="3">
+          <ion-col class="ion-text-center">
             <h2 v-t="'home_nextStory'"></h2>
           </ion-col>
         </ion-row>
@@ -68,8 +68,6 @@
         <ion-row>
           <ion-col offset="2" size="8" class="ion-justify-content-center" style="display: flex">          
             <ion-button color="light" size="small" fill="outline" @click="profileLogout" :icon="logOut" v-t="'home_LogOut'"></ion-button>
-            <!-- <ion-button color="light" size="small" fill="outline" @click="profileLogin" :icon="logOut">Login</ion-button> -->
-
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -96,7 +94,6 @@ import {
   IonAvatar,
   IonSelect,
   IonSelectOption,
-  modalController,
   IonButton
 } from '@ionic/vue';
 //import ExploreContainer from '@/components/ExploreContainer.vue';
@@ -104,12 +101,29 @@ import { defineComponent, onBeforeMount, ref } from 'vue';
 import { Preferences } from '@capacitor/preferences';
 import { ellipsisVerticalOutline, logOut } from 'ionicons/icons';
 import { googleLogout, googleTokenLogin } from 'vue3-google-login';
-import Modal from '@/components/Login.vue';
-import logToken from '@/components/Login.vue';
 
 //manage login as modal
-import { ifLoggedIn } from '@/components/globals.vue';
-ifLoggedIn();
+import { isAuth } from '@/components/globals.vue';
+import { openLoginModal } from '@/components/globals.vue';
+
+if(!isAuth.value) {
+  openLoginModal.present();
+}
+
+//controllo della localstorage della email
+const email = ref('');
+async () => {
+      const { value } = await Preferences.get({ key: 'userEmail' });
+        if(value) {
+          email.value = value
+        }
+      };
+
+//Google logout
+const profileLogout = async () => {
+  googleLogout()
+  openLoginModal.present();
+}
 
 export default defineComponent({
   components: {
@@ -132,43 +146,13 @@ export default defineComponent({
     IonButton
   },
   name: 'locale-changer',
-  setup() {
-    //ifLoggedIn();
-    const email = ref('');
-    //const logToken = ref();
-    async () => {
-      const { value } = await Preferences.get({ key: 'userEmail' });
-        if(value) {
-          email.value = value
-        }
-      };
-    // const profileLogin = () => {
-    //   googleTokenLogin().then((response) => {
-    //     console.log("Handle the response", response)
-    //   })
-    // }
-
-    const profileLogout = async () => {
-        googleLogout()
-        console.log("Logged out")
-        const modal = await modalController.create({
-            component: Modal,
-          });
-        modal.present();
-        console.log("apro il modal")
-      }
-
-    //onBeforeMount(profileLogout);
-    return {
+  data () {
+    return { names: ['italian', 'english', 'german'],
       email,
       logOut,
       ellipsisVerticalOutline,
       profileLogout,
-      //profileLogin
     }
-  },
-  data () {
-    return { names: ['italian', 'english', 'german'] }
   },
 });
 </script>

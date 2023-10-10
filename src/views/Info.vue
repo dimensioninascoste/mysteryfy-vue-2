@@ -16,9 +16,12 @@ import {
 import { defineComponent, markRaw } from 'vue';
 import Legal from '@/components/Legal.vue';
 
-//manage login as modal
-import { ifLoggedIn } from '@/components/globals.vue';
-ifLoggedIn();
+import { isAuth } from '@/components/globals.vue';
+import { openLoginModal } from '@/components/globals.vue';
+
+if(!isAuth.value) {
+  openLoginModal.present();
+}
 
 export default defineComponent({
   components: {
