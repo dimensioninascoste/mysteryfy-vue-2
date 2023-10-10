@@ -3,7 +3,6 @@
 import { ref} from 'vue';
 import { modalController } from '@ionic/vue';
 
-// import logToken from '@/components/Login.vue';
 import Modal from '@/components/Login.vue';
 
 export const loginLocalStorage = ref();
