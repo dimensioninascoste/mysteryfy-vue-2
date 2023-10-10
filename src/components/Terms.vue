@@ -1,17 +1,15 @@
 <template>
   <ion-header>
     <ion-toolbar>
-      <ion-title v-t="'terms_title'"></ion-title>
+      <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
     </ion-toolbar>
-    <ion-nav-link router-direction="forward" :component="component">
-      <ion-button>Privacy</ion-button>
-    </ion-nav-link>
-    <ion-nav-link router-direction="forward" :component="cnext">
-      <ion-button>FAQ</ion-button>
-    </ion-nav-link>
   </ion-header>
+
   <ion-content class="ion-padding">
     <h1  v-t="'terms_title'"></h1>
+    <p>Testo </p>
 
   </ion-content>
 </template>
@@ -30,6 +28,9 @@
   } from '@ionic/vue';
   import Privacy from '@/components/Privacy.vue';
   import Faq from '@/components/Faq.vue';
+  import { useI18n } from 'vue-i18n';
+
+  console.log("lingua ", useI18n)
 
   export default {
     components: {
@@ -44,8 +45,8 @@
     },
     data() {
       return {
-        component: markRaw(Privacy),
-        cnext: markRaw(Faq)
+        privacy: markRaw(Privacy),
+        faq: markRaw(Faq)
       };
     },
   };

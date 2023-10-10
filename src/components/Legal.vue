@@ -1,9 +1,7 @@
+<!-- questa pagina viene inglobata in Info.vue-->
+
 <template>
   <ion-header>
-    <ion-toolbar>
-      <ion-title v-t="'legal_Title'"></ion-title>
-    </ion-toolbar>
-
     <ion-nav-link router-direction="forward" :component="terms">
       <ion-button v-t="'legal_Terms'"></ion-button>
     </ion-nav-link>
@@ -14,6 +12,7 @@
       <ion-button v-t="'legal_FAQ'"></ion-button>
     </ion-nav-link>
   </ion-header>
+
   <ion-content class="ion-padding">
     <h1  v-t="'legal_Title'"></h1>
     <p v-t="'legal_Home'"></p>
