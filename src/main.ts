@@ -33,6 +33,9 @@ import { createI18n } from 'vue-i18n';
 import { globalizationList } from '@/lang/globalizationData';
 import { Device, DevicePlugin } from '@capacitor/device';
 
+/* Import language global variable */
+import { clientLang } from '@/components/clientlang';
+
 /* Import Vue3 Google Login */
 import vue3GoogleLogin from 'vue3-google-login'
 
@@ -46,6 +49,8 @@ await Device.getLanguageCode().then((res) => {
     deviceLang = res.value;
     console.log(deviceLang)
   }
+
+  clientLang.value = deviceLang;
 
   const i18n = createI18n({
     locale: deviceLang, // set locale

@@ -4,11 +4,11 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>F.A.Q.</ion-title>
+    <ion-title v-t="'legal_FAQ'"></ion-title>
   </ion-toolbar>
   </ion-header>
-  <ion-content class="ion-padding">
-    <h1>FAQ</h1>
+  <ion-content>
+    <iframe style="height:100%;width:100%" :src="faqlink"></iframe>
   </ion-content>
 </template>
 
@@ -24,6 +24,15 @@
     IonBackButton
   } from '@ionic/vue';
 
+  import { clientLang } from '@/components/clientlang';
+
+var faqlink: string;
+if(clientLang.value !== "en") {
+  faqlink = "https://www.mysteryfy.com/mysteryfy-domande-frequenti/";
+} else {
+  faqlink = "https://www.mysteryfy.com/mysteryfy-faq/"
+}
+
   export default {
     components: {
       IonHeader,
@@ -35,5 +44,10 @@
       IonButtons,
       IonBackButton
     },
+    data() {
+      return {
+        faqlink
+      }
+    }
   };
 </script>

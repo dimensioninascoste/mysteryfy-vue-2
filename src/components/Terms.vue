@@ -4,12 +4,13 @@
       <ion-buttons slot="start">
         <ion-back-button></ion-back-button>
       </ion-buttons>
+      <ion-title v-t="'legal_Terms'">Privacy</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <ion-content class="ion-padding">
-    <h1  v-t="'terms_title'"></h1>
-    <p>Testo </p>
+
+  <ion-content>
+    <iframe style="height:100%;width:100%" :src="termslink"></iframe>
 
   </ion-content>
 </template>
@@ -26,11 +27,19 @@
     IonButtons,
     IonBackButton
   } from '@ionic/vue';
+  
   import Privacy from '@/components/Privacy.vue';
   import Faq from '@/components/Faq.vue';
-  import { useI18n } from 'vue-i18n';
 
-  console.log("lingua ", useI18n)
+  import { clientLang } from '@/components/clientlang';
+
+  var termslink: string;
+  if(clientLang.value !== "en") {
+    termslink = "https://www.iubenda.com/termini-e-condizioni/61536869";
+  } else {
+    termslink = "https://www.iubenda.com/terms-and-conditions/33072070"
+  }
+
 
   export default {
     components: {
@@ -46,7 +55,8 @@
     data() {
       return {
         privacy: markRaw(Privacy),
-        faq: markRaw(Faq)
+        faq: markRaw(Faq),
+        termslink
       };
     },
   };
