@@ -1,10 +1,6 @@
 <template>
   <ion-page>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Mysteryfy</ion-title>
-      </ion-toolbar>
-    </ion-header>
+
     <ion-content :fullscreen="true" class="ion-padding">
       <ion-header collapse="condense">
         <ion-toolbar>
@@ -100,7 +96,7 @@ import {
 import { defineComponent, onBeforeMount, ref } from 'vue';
 import { Preferences } from '@capacitor/preferences';
 import { ellipsisVerticalOutline, logOut } from 'ionicons/icons';
-import { googleLogout, googleTokenLogin } from 'vue3-google-login';
+import { googleLogout } from 'vue3-google-login';
 
 //manage login as modal
 import { isAuth } from '@/components/globals.vue';
@@ -122,7 +118,10 @@ async () => {
 //Google logout
 const profileLogout = async () => {
   googleLogout()
+  console.log("googleLogout")
+  isAuth.value = false;
   openLoginModal.present();
+  console.log("Modal present")
 }
 
 export default defineComponent({

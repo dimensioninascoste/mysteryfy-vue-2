@@ -1,21 +1,14 @@
 <template>
   <ion-page>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Library of Cases</ion-title>
-      </ion-toolbar>
-    </ion-header>
+
     <ion-content :fullscreen="true" class="ion-padding">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">Catalog</ion-title>
+          <ion-title size="large" v-t="'catalog'">Cases</ion-title>
         </ion-toolbar>
       </ion-header>
 
       <!-- <ExploreContainer name="Tab 3 page" /> -->
-      <div>
-        <h1 v-t="'catalog'"></h1>
-      </div>
 
       <ion-card>
         <img alt="The Portrait of the Death" src="https://www.mysteryfy.com/wp-content/uploads/2021/10/Amiltoni-Villa-300x200.jpg" />
