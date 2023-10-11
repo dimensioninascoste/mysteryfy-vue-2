@@ -30,6 +30,20 @@
           <ion-button @click="openAdventure('https:www.mysteryfy.com')">Gioca</ion-button>
         </ion-row>
       </ion-card>
+
+      <ion-grid>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size="12">
+            <h2>Il Ritratto della Morte</h2>
+          </ion-col>
+          <ion-col size="12" size-md="6" class="">
+            <img alt="The Portrait of the Death" src="https://www.mysteryfy.com/wp-content/uploads/2021/10/Amiltoni-Villa-300x200.jpg" />
+          </ion-col>
+          <ion-col size="12" size-md="6">
+            <p>Un'antica maledizione riemerge dal passato portando con sé una scia di omicidi. Fantasmi o un oscuro piano di uno spietato assassino?</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     
     </ion-content>
   </ion-page>
