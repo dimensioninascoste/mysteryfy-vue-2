@@ -33,6 +33,7 @@
 
       <ion-card>
         <ion-grid>
+
           <ion-row class="ion-justify-content-center">
             <ion-col size="12">
               <h2 color="secondary">Il Ritratto della Morte</h2>
@@ -50,8 +51,42 @@
               <ion-button @click="openAdventure('https:www.mysteryfy.com/pwastories/il_ritratto_della_morte/index?LANGUAGE=')">Gioca</ion-button>
             </ion-col>
           </ion-row>
+
         </ion-grid>
       </ion-card>
+
+      <div v-if="storie.length">
+
+        <ion-card v-for="storia in storie" :key="storia.id" class="storia">
+          <ion-grid>
+
+            <ion-row class="ion-justify-content-center">
+              <ion-col size="12">
+                <h2 color="secondary">{{ storia.titolo }}</h2>
+              </ion-col>
+              <ion-col size="12" size-sm="6" class="">
+                <img :alt="storia.titolo" :src="storia.copertina" style="width: 100%;"/>
+                <!-- "https://www.mysteryfy.com/pwastories/il_ritratto_della_morte/copertina/copertina.webp"-->
+              </ion-col>
+
+              <ion-col size="12" size-sm="6">
+                <ion-chip color="warning" style="width: 5rem;">
+                  <ion-icon :icon="gift"></ion-icon>
+                  <ion-label>Free!</ion-label>
+                </ion-chip>
+                <p>{{ storia.descrizione_breve }}</p>
+                <ion-button @click="openAdventure('https:www.mysteryfy.com/pwastories/il_ritratto_della_morte/index?LANGUAGE=')">Gioca</ion-button>
+              </ion-col>
+            </ion-row>
+
+            </ion-grid>
+          <h2></h2>
+        </ion-card>
+      </div>
+
+      <div v-else>
+        Sto caricando...
+      </div>
     
     </ion-content>
   </ion-page>
@@ -89,7 +124,11 @@ if(!isAuth.value) {
   openLoginModal.present();
 }
 
-export default defineComponent({
+//imposto l'indirizzo del json
+//const API_URL = 'https://www.mysteryfy.com/pwastories';
+const API_URL = 'http://localhost:3000/storie'
+
+export default {
   components: {
     IonPage,
     IonHeader,
@@ -110,14 +149,28 @@ export default defineComponent({
   },
   setup(){
     return {
-      gift
+      gift,
     }
+  },
+  //https://stackoverflow.com/questions/44147937/property-does-not-exist-on-type-never
+  data: () => {
+    return {
+      storie: <any[]>([]),
+    }
+  },
+  //https://www.youtube.com/watch?v=7iDGJolHFmU
+  mounted() {
+      fetch(API_URL) //funzione asincrona che attende una promise
+        .then(res => res.json())          //anche res.json è asincrona e contiene una promise
+        .then(data => this.storie = data)
+        .catch(err => console.log(err.message))
   },
   methods: {
     openAdventure(adventure: string) {
       window.location.href = adventure
-    }
+    },
+   
   }
-});
+};
 
 </script>

@@ -1,0 +1,17 @@
+{
+    "storie": [
+    {
+        "titolo": "Il Ritratto della Morte",
+        "copertina": "https://www.mysteryfy.com/pwastories/il_ritratto_della_morte/copertina/copertina.webp",
+        "nome_path": "il_ritratto_della_morte",
+        "descrizione_breve": "Un'antica maledizione riemerge dal passato portando con sé una scia di omicidi. Fantasmi o un oscuro piano di uno spietato assassino?",
+        "pay": "free"
+    },
+    {
+        "titolo": "La scomparsa di Sara",
+        "copertina": "https://www.mysteryfy.com/pwastories/il_ritratto_della_morte/copertina/copertina.webp",
+        "nome_path": "la_scomparsa_di_sara",
+        "descrizione_breve": "Sara è scomparsa. Porca miseria e adesso?",
+        "pay": "free"
+    }
+]}    
