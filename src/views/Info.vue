@@ -16,8 +16,7 @@ import {
 import { defineComponent, markRaw } from 'vue';
 import Legal from '@/components/Legal.vue';
 
-import { isAuth } from '@/components/globals.vue';
-import { openLoginModal } from '@/components/globals.vue';
+import { isAuth, openLoginModal } from '@/components/Globals.vue';
 
 if(!isAuth.value) {
   openLoginModal.present();

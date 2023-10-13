@@ -31,7 +31,7 @@
   import { defineComponent, ref } from 'vue';
   import type { CallbackTypes } from 'vue3-google-login';
   import { logoGoogle, logoApple } from 'ionicons/icons';
-  import { isAuth } from './globals.vue';
+  import { isAuth } from '@/components/Globals.vue';
 
   const loginCallback: CallbackTypes.TokenResponseCallback = (response) => {
         console.log("Access Token", response.access_token);
