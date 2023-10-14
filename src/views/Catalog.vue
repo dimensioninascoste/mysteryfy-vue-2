@@ -160,8 +160,13 @@ export default {
   },
   //https://www.youtube.com/watch?v=7iDGJolHFmU
   mounted() {
-      fetch(API_URL) //funzione asincrona che attende una promise
-        .then(res => res.json())          //anche res.json è asincrona e contiene una promise
+    async function fetchData() {
+      const response = await fetch(API_URL);
+      const data = await response.json();
+      return data;
+    }
+    fetchData() //funzione asincrona che attende una promise
+        //.then(res => res.json())          //anche res.json è asincrona e contiene una promise
         .then(data => this.storie = data)
         .catch(err => console.log(err.message))
   },
