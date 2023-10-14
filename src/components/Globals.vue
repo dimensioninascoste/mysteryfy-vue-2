@@ -8,10 +8,12 @@ import Modal from '@/components/Login.vue';
 const loginLocalStorage = ref();
 const isAuth = ref(true); //set true when developing: false when in productivity
 
-const openLoginModal = await modalController.create({
+async function openLoginModal() {
+  await modalController.create({
       component: Modal,
       backdropDismiss: false
     });
+  }
 
 export default {
   loginLocalStorage,
