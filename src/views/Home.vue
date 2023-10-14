@@ -99,7 +99,8 @@ import { ellipsisVerticalOutline, logOut } from 'ionicons/icons';
 import { googleLogout } from 'vue3-google-login';
 
 //manage login as modal
-import { isAuth, openLoginModal } from '@/components/Globals.vue';
+import isAuth from '@/components/Globals.vue';
+import openLoginModal from '@/components/Globals.vue';
 
 if(!isAuth.value) {
   openLoginModal.present();

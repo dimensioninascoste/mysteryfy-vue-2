@@ -115,7 +115,8 @@ import {
 import { gift } from 'ionicons/icons';
 import { defineComponent } from 'vue';
 
-import { isAuth, openLoginModal } from '@/components/Globals.vue';
+import isAuth from '@/components/Globals.vue';
+import openLoginModal from '@/components/Globals.vue';
 
 import { clientLang } from '@/components/clientlang';
 

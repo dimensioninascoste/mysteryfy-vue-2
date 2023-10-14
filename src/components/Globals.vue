@@ -5,12 +5,18 @@ import { modalController } from '@ionic/vue';
 
 import Modal from '@/components/Login.vue';
 
-export const loginLocalStorage = ref();
-export const isAuth = ref(true); //set true when developing: false when in productivity
+const loginLocalStorage = ref();
+const isAuth = ref(true); //set true when developing: false when in productivity
 
-export const openLoginModal = await modalController.create({
+const openLoginModal = await modalController.create({
       component: Modal,
       backdropDismiss: false
     });
+
+export default {
+  loginLocalStorage,
+  isAuth,
+  openLoginModal
+}
 
 </script>
