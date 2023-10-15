@@ -113,15 +113,21 @@ import {
 } from '@ionic/vue';
 //import ExploreContainer from '@/components/ExploreContainer.vue';
 import { gift } from 'ionicons/icons';
-import { defineComponent } from 'vue';
 
+//manage login as modal
 import isAuth from '@/components/Globals.vue';
-import openLoginModal from '@/components/Globals.vue';
+import { modalController } from '@ionic/vue';
+import Modal from '@/components/Login.vue';
 
 import { clientLang } from '@/components/clientlang';
 
 if(!isAuth.value) {
-  openLoginModal.present();
+  const loginmodal = await modalController.create({
+      component: Modal,
+      backdropDismiss: false
+    });
+    loginmodal.present();
+  console.log("Modal present")
 }
 
 //imposto l'indirizzo del json
@@ -160,13 +166,8 @@ export default {
   },
   //https://www.youtube.com/watch?v=7iDGJolHFmU
   mounted() {
-    async function fetchData() {
-      const response = await fetch(API_URL);
-      const data = await response.json();
-      return data;
-    }
-    fetchData() //funzione asincrona che attende una promise
-        //.then(res => res.json())          //anche res.json è asincrona e contiene una promise
+      fetch(API_URL) //funzione asincrona che attende una promise
+        .then(res => res.json())          //anche res.json è asincrona e contiene una promise
         .then(data => this.storie = data)
         .catch(err => console.log(err.message))
   },

@@ -100,11 +100,9 @@ import { googleLogout } from 'vue3-google-login';
 
 //manage login as modal
 import isAuth from '@/components/Globals.vue';
-import openLoginModal from '@/components/Globals.vue';
+import { modalController } from '@ionic/vue';
+import Modal from '@/components/Login.vue';
 
-if(!isAuth.value) {
-  openLoginModal.present();
-}
 
 //controllo della localstorage della email
 const email = ref('');
@@ -120,7 +118,12 @@ const profileLogout = async () => {
   googleLogout()
   console.log("googleLogout")
   isAuth.value = false;
-  openLoginModal.present();
+
+  const loginmodal = await modalController.create({
+      component: Modal,
+      backdropDismiss: false
+    });
+    loginmodal.present();
   console.log("Modal present")
 }
 
